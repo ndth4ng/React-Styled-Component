@@ -26,7 +26,7 @@ const Desc = styled.p`
   margin: 25px 0;
 `;
 
-const SocicalContainer = styled.h1`
+const SocialContainer = styled.h1`
   display: flex;
 `;
 
@@ -95,7 +95,7 @@ const Footer = () => {
           the majority have suffered alteration in some form, by injected
           humour, or randomised words which don't look even slightly believable.
         </Desc>
-        <SocicalContainer>
+        <SocialContainer>
           <SocialIcon color="3B5999">
             <Facebook />
           </SocialIcon>
@@ -108,7 +108,7 @@ const Footer = () => {
           <SocialIcon color="E60023">
             <Pinterest />
           </SocialIcon>
-        </SocicalContainer>
+        </SocialContainer>
       </Left>
       <Center>
         <Title>Useful Links</Title>
