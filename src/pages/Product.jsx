@@ -9,6 +9,8 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 import { publicRequest } from "../requestMethods";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -141,6 +143,8 @@ const Product = () => {
   const [chosenColor, setChosenColor] = useState("");
   const [chosenSize, setChosenSize] = useState("");
 
+  const dispatch = useDispatch();
+
   const handleQuantity = (type) => {
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
@@ -150,8 +154,8 @@ const Product = () => {
   };
 
   const handleClick = () => {
-    
-  }
+    dispatch(addProduct({ ...product, quantity, color: chosenColor, size: chosenSize }));
+  };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -182,11 +186,17 @@ const Product = () => {
             <Filter>
               <FilterTitle>Color</FilterTitle>
               {product.color &&
-                product.color.map((c) => <FilterColor color={c} key={c} onClick={() => setChosenColor(c)}/>)}
+                product.color.map((c) => (
+                  <FilterColor
+                    color={c}
+                    key={c}
+                    onClick={() => setChosenColor(c)}
+                  />
+                ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize onChange={e => setChosenSize(e.target.value)}>
+              <FilterSize onChange={(e) => setChosenSize(e.target.value)}>
                 {product.size &&
                   product.size.map((s) => (
                     <FilterSizeOption key={s}>{s}</FilterSizeOption>
