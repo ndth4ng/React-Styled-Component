@@ -49,6 +49,8 @@ const SearchContainer = styled.div`
 
 const Input = styled.input`
   border: none;
+  outline: none;
+
   ${mobile({
     width: "70px",
   })}
@@ -89,6 +91,7 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
+  const user = useSelector((state) => state.user.currentUser);
 
   return (
     <Container>
@@ -104,8 +107,21 @@ const Navbar = () => {
           <Logo>DEV.</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to="/register"
+          >
+            <MenuItem style={user && { display: "none" }}>REGISTER</MenuItem>
+          </Link>
+          <Link
+            to="/login"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <MenuItem style={user && { display: "none" }}>SIGN IN</MenuItem>
+          </Link>
+          <MenuItem style={user ? { display: "block" } : { display: "none" }}>
+            LOG OUT
+          </MenuItem>
           <MenuItem>
             <Link to="/cart">
               <Badge badgeContent={quantity} color="primary">
