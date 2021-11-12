@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import {
+  FavoriteBorderOutlined,
+  Search,
+  ShoppingCartOutlined,
+} from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
 import { mobile } from "../responsive";
 
@@ -82,11 +86,17 @@ const Right = styled.div`
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
-  margin-left: 25px;
+  margin-left: 15px;
   ${mobile({
     fontSize: "12px",
     marginLeft: "10px",
   })}
+`;
+
+const UserImg = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 `;
 
 const Navbar = () => {
@@ -104,7 +114,9 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>DEV.</Logo>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <Logo>DEV.</Logo>
+          </Link>
         </Center>
         <Right>
           <Link
@@ -123,7 +135,27 @@ const Navbar = () => {
             LOG OUT
           </MenuItem>
           <MenuItem>
-            <Link to="/cart">
+            {user && (
+              <Link
+                to="/profile"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <UserImg
+                  src="https://firebasestorage.googleapis.com/v0/b/shop-2edcf.appspot.com/o/163664544026275519312_2575922042638572_6888852351344443392_n.jpg?alt=media&token=26bc9b04-1554-4fef-9c7b-9ea30c2d3775"
+                  alt=""
+                />
+              </Link>
+            )}
+          </MenuItem>
+          <MenuItem>
+            <Link to="/wishlist" style={{ color: "inherit" }}>
+              <Badge badgeContent={0} color="primary">
+                <FavoriteBorderOutlined />
+              </Badge>
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/cart" style={{ color: "inherit" }}>
               <Badge badgeContent={quantity} color="primary">
                 <ShoppingCartOutlined />
               </Badge>

@@ -13,6 +13,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -37,6 +38,9 @@ const App = () => {
         <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
         <Route path="/register">
           {user ? <Redirect to="/" /> : <Register />}
+        </Route>
+        <Route path="/profile">
+          {user ? <Profile /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </Router>
