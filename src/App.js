@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
+import Wishlist from "./pages/Wishlist";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -41,6 +42,9 @@ const App = () => {
         </Route>
         <Route path="/profile">
           {user ? <Profile /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/wishlist">
+          {user ? <Wishlist /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </Router>

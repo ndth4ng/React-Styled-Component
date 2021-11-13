@@ -205,10 +205,10 @@ const Cart = () => {
 
   return (
     <Container>
-      <Navbar />
       <Announcement />
+      <Navbar />
       <Wrapper>
-        <Title>YOUR CART</Title>
+        <Title>MY CART</Title>
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>

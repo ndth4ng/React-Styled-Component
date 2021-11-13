@@ -86,7 +86,7 @@ const Right = styled.div`
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
-  margin-left: 15px;
+  margin-left: 25px;
   ${mobile({
     fontSize: "12px",
     marginLeft: "10px",
@@ -149,7 +149,7 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem>
             <Link to="/wishlist" style={{ color: "inherit" }}>
-              <Badge badgeContent={0} color="primary">
+              <Badge badgeContent={2} color="secondary">
                 <FavoriteBorderOutlined />
               </Badge>
             </Link>
