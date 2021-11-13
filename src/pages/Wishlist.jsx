@@ -3,9 +3,10 @@ import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-
-import { rows } from "../dummyData";
 import Footer from "../components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProductFromWishList } from "../redux/apiCalls";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -51,16 +52,28 @@ const AddToCartButton = styled.button`
 `;
 
 const Wishlist = () => {
+  const wishlistProducts = useSelector((state) => state.wishlist.products);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleDelete = (productId) => {
+    deleteProductFromWishList(dispatch, productId);
+  };
+
+  const handleClick = (productId) => {
+    history.push(`/product/${productId}`);
+  };
+
   const columns = [
     {
-      field: "id",
+      field: "_id",
       headerName: "",
       width: 50,
       disableColumnMenu: true,
       sortable: false,
       headerAlign: "center",
       renderCell: (params) => {
-        return <DeleteButton />;
+        return <DeleteButton onClick={() => handleDelete(params.row._id)} />;
       },
     },
     {
@@ -101,7 +114,11 @@ const Wishlist = () => {
       disableColumnMenu: true,
       minWidth: 200,
       renderCell: (params) => {
-        return <AddToCartButton>Add to cart</AddToCartButton>;
+        return (
+          <AddToCartButton onClick={() => handleClick(params.row._id)}>
+            View product
+          </AddToCartButton>
+        );
       },
     },
   ];
@@ -114,8 +131,9 @@ const Wishlist = () => {
         <Title>MY WISHLIST</Title>
         <TableWrapper>
           <DataGrid
+            getRowId={(row) => row._id}
             columns={columns}
-            rows={rows}
+            rows={wishlistProducts}
             rowHeight={100}
             pageSize={5}
             rowsPerPageOptions={[5]}

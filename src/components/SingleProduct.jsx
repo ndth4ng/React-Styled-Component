@@ -3,9 +3,11 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@material-ui/icons";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
+import { addProductToWishList } from "../redux/apiCalls";
 
 const Info = styled.div`
   opacity: 0;
@@ -52,6 +54,7 @@ const Image = styled.img`
 `;
 
 const Icon = styled.div`
+  cursor: pointer;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -69,6 +72,10 @@ const Icon = styled.div`
 `;
 
 const SingleProduct = ({ item }) => {
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    addProductToWishList(dispatch, item);
+  };
   return (
     <Container>
       <Circle />
@@ -82,7 +89,7 @@ const SingleProduct = ({ item }) => {
             <SearchOutlined />
           </Link>
         </Icon>
-        <Icon>
+        <Icon onClick={handleClick}>
           <FavoriteBorder />
         </Icon>
       </Info>

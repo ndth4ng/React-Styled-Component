@@ -102,6 +102,7 @@ const UserImg = styled.img`
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
   const user = useSelector((state) => state.user.currentUser);
+  const wishlist = useSelector((state) => state.wishlist.products);
 
   return (
     <Container>
@@ -134,8 +135,8 @@ const Navbar = () => {
           <MenuItem style={user ? { display: "block" } : { display: "none" }}>
             LOG OUT
           </MenuItem>
-          <MenuItem>
-            {user && (
+          {user && (
+            <MenuItem>
               <Link
                 to="/profile"
                 style={{ textDecoration: "none", color: "inherit" }}
@@ -145,15 +146,17 @@ const Navbar = () => {
                   alt=""
                 />
               </Link>
-            )}
-          </MenuItem>
-          <MenuItem>
-            <Link to="/wishlist" style={{ color: "inherit" }}>
-              <Badge badgeContent={2} color="secondary">
-                <FavoriteBorderOutlined />
-              </Badge>
-            </Link>
-          </MenuItem>
+            </MenuItem>
+          )}
+          {user && (
+            <MenuItem>
+              <Link to="/wishlist" style={{ color: "inherit" }}>
+                <Badge badgeContent={wishlist.length} color="secondary">
+                  <FavoriteBorderOutlined />
+                </Badge>
+              </Link>
+            </MenuItem>
+          )}
           <MenuItem>
             <Link to="/cart" style={{ color: "inherit" }}>
               <Badge badgeContent={quantity} color="primary">

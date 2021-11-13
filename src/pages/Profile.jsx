@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -217,7 +218,9 @@ const Profile = () => {
           <LeftBottom>
             <List>
               <ListItem>My Orders</ListItem>
-              <ListItem>Wishlist</ListItem>
+              <Link to="/wishlist" style={{ textDecoration: "none" }}>
+                <ListItem>Wishlist</ListItem>
+              </Link>
               <ListItem>Notifications</ListItem>
               <ListItem>Settings</ListItem>
             </List>
