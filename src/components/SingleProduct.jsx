@@ -5,6 +5,7 @@ import {
 } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useHistory, userHistory } from "react-router";
 
 import styled from "styled-components";
 import { addProductToWishList } from "../redux/apiCalls";
@@ -73,12 +74,19 @@ const Icon = styled.div`
 
 const SingleProduct = ({ item }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const currentUser = useSelector((state) => state.user.currentUser);
-  const userId = currentUser._id;
+
+  let userId = "";
 
   const handleClick = () => {
-    addProductToWishList(dispatch, userId, item);
+    if (currentUser) {
+      userId = currentUser._id;
+      addProductToWishList(dispatch, userId, item);
+    } else {
+      history.push("/login");
+    }
   };
   return (
     <Container>

@@ -8,6 +8,18 @@ const wishlistSlice = createSlice({
     error: false,
   },
   reducers: {
+    // FETCH WISHLIST DATA
+    fetchWishlistStart: (state) => {
+      state.isFetching = true;
+    },
+    fetchWishlistSuccess: (state, action) => {
+      state.isFetching = false;
+      state.products = action.payload;
+    },
+    fetchWishlistFailure: (state) => {
+      state.isFetching = true;
+      state.error = true;
+    },
     // ADD
     addWishlistStart: (state) => {
       state.isFetching = true;
@@ -45,6 +57,9 @@ export const {
   deleteWishlistStart,
   deleteWishlistSuccess,
   deleteWishlistFailure,
+  fetchWishlistStart,
+  fetchWishlistSuccess,
+  fetchWishlistFailure,
 } = wishlistSlice.actions;
 
 export default wishlistSlice.reducer;

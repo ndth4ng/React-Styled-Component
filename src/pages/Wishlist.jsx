@@ -5,7 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProductFromWishList } from "../redux/apiCalls";
+import { deleteProductFromWishList, fetchWishlist } from "../redux/apiCalls";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { userRequest } from "../requestMethods";
@@ -56,26 +56,16 @@ const AddToCartButton = styled.button`
 
 const Wishlist = () => {
   const wishlistProducts = useSelector((state) => state.wishlist.products);
-  // const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // const [products, setProducts] = useState([]);
-
-  // useEffect(() => {
-  //   const getWishlistProducts = async () => {
-  //     try {
-  //       const res = await userRequest.get(`/find/${currentUser._id}`);
-  //       setProducts(res.data.products);
-  //     } catch (error) {
-
-  //     }
-  //   }
-  //   getWishlistProducts();
-  // })
+  useEffect(() => {
+    fetchWishlist(dispatch, currentUser._id);
+  }, [dispatch, currentUser._id]);
 
   const handleDelete = (productId) => {
-    deleteProductFromWishList(dispatch, productId);
+    deleteProductFromWishList(dispatch, currentUser._id, productId);
   };
 
   const handleClick = (productId) => {

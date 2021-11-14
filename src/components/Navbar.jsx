@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   FavoriteBorderOutlined,
@@ -8,8 +8,9 @@ import {
 import { Badge } from "@material-ui/core";
 import { mobile } from "../responsive";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchWishlist } from "../redux/apiCalls";
 
 const Container = styled.div`
   height: 60px;
@@ -104,6 +105,23 @@ const Navbar = () => {
   const user = useSelector((state) => state.user.currentUser);
   const wishlist = useSelector((state) => state.wishlist.products);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      fetchWishlist(dispatch, user._id);
+    }
+    return null;
+  }, [user, dispatch, user?._id]);
+
+  const handleLogout = () => {
+    user.currentUser = null;
+    user.isFetching = false;
+    user.error = false;
+    localStorage.clear();
+    window.location.href = "/";
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -132,7 +150,10 @@ const Navbar = () => {
           >
             <MenuItem style={user && { display: "none" }}>SIGN IN</MenuItem>
           </Link>
-          <MenuItem style={user ? { display: "block" } : { display: "none" }}>
+          <MenuItem
+            style={user ? { display: "block" } : { display: "none" }}
+            onClick={() => handleLogout()}
+          >
             LOG OUT
           </MenuItem>
           {user && (
