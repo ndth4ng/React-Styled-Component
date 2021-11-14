@@ -3,7 +3,7 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
@@ -73,8 +73,12 @@ const Icon = styled.div`
 
 const SingleProduct = ({ item }) => {
   const dispatch = useDispatch();
+
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const userId = currentUser._id;
+
   const handleClick = () => {
-    addProductToWishList(dispatch, item);
+    addProductToWishList(dispatch, userId, item);
   };
   return (
     <Container>

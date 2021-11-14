@@ -7,6 +7,9 @@ import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProductFromWishList } from "../redux/apiCalls";
 import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
+import { userRequest } from "../requestMethods";
+import { useState } from "react";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -53,8 +56,23 @@ const AddToCartButton = styled.button`
 
 const Wishlist = () => {
   const wishlistProducts = useSelector((state) => state.wishlist.products);
+  // const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  // const [products, setProducts] = useState([]);
+
+  // useEffect(() => {
+  //   const getWishlistProducts = async () => {
+  //     try {
+  //       const res = await userRequest.get(`/find/${currentUser._id}`);
+  //       setProducts(res.data.products);
+  //     } catch (error) {
+
+  //     }
+  //   }
+  //   getWishlistProducts();
+  // })
 
   const handleDelete = (productId) => {
     deleteProductFromWishList(dispatch, productId);
@@ -105,6 +123,9 @@ const Wishlist = () => {
       headerAlign: "center",
       disableColumnMenu: true,
       minWidth: 200,
+      renderCell: (params) => {
+        return params.row.inStock === true ? "Yes" : "No";
+      },
     },
     {
       field: "add",

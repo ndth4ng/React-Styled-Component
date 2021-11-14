@@ -1,4 +1,4 @@
-import { publicRequest } from "../requestMethods";
+import { publicRequest, userRequest } from "../requestMethods";
 import { loginFailure, loginStart, loginSuccess } from "./userRedux";
 import {
   addWishlistStart,
@@ -19,10 +19,12 @@ export const login = async (dispatch, user) => {
   }
 };
 
-export const addProductToWishList = async (dispatch, product) => {
+export const addProductToWishList = async (dispatch, userId, product) => {
   dispatch(addWishlistStart());
   try {
-    // const res = await userRequest.put("/wishlist/", product._id);
+    const res = await userRequest.put(`/wishlist/${userId}`, {
+      productId: product._id,
+    });
     dispatch(addWishlistSuccess(product));
   } catch (error) {
     dispatch(addWishlistFailure());
