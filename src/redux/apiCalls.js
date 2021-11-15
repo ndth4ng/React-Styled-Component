@@ -1,5 +1,11 @@
-import { publicRequest, userRequest } from "../requestMethods";
-import { loginFailure, loginStart, loginSuccess } from "./userRedux";
+import { getToken, publicRequest, userRequest } from "../requestMethods";
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+  logoutSuccess,
+  setTokenSuccess,
+} from "./userRedux";
 import {
   addWishlistStart,
   addWishlistSuccess,
@@ -17,9 +23,18 @@ export const login = async (dispatch, user) => {
   try {
     const res = await publicRequest.post("/auth/login", user);
     dispatch(loginSuccess(res.data));
+    setTimeout(() => {
+      getToken();
+      dispatch(setTokenSuccess());
+    }, 1000);
   } catch (error) {
     dispatch(loginFailure());
+    console.log(error);
   }
+};
+
+export const logout = (dispatch) => {
+  dispatch(logoutSuccess());
 };
 
 export const fetchWishlist = async (dispatch, userId) => {

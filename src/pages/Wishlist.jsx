@@ -60,9 +60,9 @@ const Wishlist = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    fetchWishlist(dispatch, currentUser._id);
-  }, [dispatch, currentUser._id]);
+  // useEffect(() => {
+  //   fetchWishlist(dispatch, currentUser._id);
+  // }, [dispatch, currentUser._id]);
 
   const handleDelete = (productId) => {
     deleteProductFromWishList(dispatch, currentUser._id, productId);

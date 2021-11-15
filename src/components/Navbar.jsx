@@ -10,7 +10,7 @@ import { mobile } from "../responsive";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchWishlist } from "../redux/apiCalls";
+import { fetchWishlist, logout } from "../redux/apiCalls";
 
 const Container = styled.div`
   height: 60px;
@@ -102,24 +102,20 @@ const UserImg = styled.img`
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
-  const user = useSelector((state) => state.user.currentUser);
+  const { currentUser, isAuthenticated } = useSelector((state) => state.user);
   const wishlist = useSelector((state) => state.wishlist.products);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user) {
-      fetchWishlist(dispatch, user._id);
+    if (isAuthenticated) {
+      fetchWishlist(dispatch, currentUser._id);
     }
     return null;
-  }, [user, dispatch, user?._id]);
+  }, [isAuthenticated, dispatch, currentUser]);
 
   const handleLogout = () => {
-    user.currentUser = null;
-    user.isFetching = false;
-    user.error = false;
-    localStorage.clear();
-    window.location.href = "/";
+    logout(dispatch);
   };
 
   return (
@@ -142,21 +138,25 @@ const Navbar = () => {
             style={{ textDecoration: "none", color: "inherit" }}
             to="/register"
           >
-            <MenuItem style={user && { display: "none" }}>REGISTER</MenuItem>
+            <MenuItem style={currentUser && { display: "none" }}>
+              REGISTER
+            </MenuItem>
           </Link>
           <Link
             to="/login"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <MenuItem style={user && { display: "none" }}>SIGN IN</MenuItem>
+            <MenuItem style={currentUser && { display: "none" }}>
+              SIGN IN
+            </MenuItem>
           </Link>
           <MenuItem
-            style={user ? { display: "block" } : { display: "none" }}
+            style={currentUser ? { display: "block" } : { display: "none" }}
             onClick={() => handleLogout()}
           >
             LOG OUT
           </MenuItem>
-          {user && (
+          {isAuthenticated && (
             <MenuItem>
               <Link
                 to="/profile"
@@ -169,7 +169,7 @@ const Navbar = () => {
               </Link>
             </MenuItem>
           )}
-          {user && (
+          {currentUser && (
             <MenuItem>
               <Link to="/wishlist" style={{ color: "inherit" }}>
                 <Badge badgeContent={wishlist.length} color="secondary">

@@ -17,7 +17,7 @@ import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
 
 const App = () => {
-  const user = useSelector((state) => state.user.currentUser);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   return (
     <Router>
       <Switch>
@@ -36,15 +36,17 @@ const App = () => {
         <Route path="/success">
           <Success />
         </Route>
-        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+        <Route path="/login">
+          {isAuthenticated ? <Redirect to="/" /> : <Login />}
+        </Route>
         <Route path="/register">
-          {user ? <Redirect to="/" /> : <Register />}
+          {isAuthenticated ? <Redirect to="/" /> : <Register />}
         </Route>
         <Route path="/profile">
-          {user ? <Profile /> : <Redirect to="/login" />}
+          {isAuthenticated ? <Profile /> : <Redirect to="/login" />}
         </Route>
         <Route path="/wishlist">
-          {user ? <Wishlist /> : <Redirect to="/login" />}
+          {isAuthenticated ? <Wishlist /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </Router>
