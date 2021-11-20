@@ -50,7 +50,7 @@ export const fetchWishlist = async (dispatch, userId) => {
 export const addProductToWishList = async (dispatch, userId, product) => {
   dispatch(addWishlistStart());
   try {
-    const res = await userRequest.patch(
+    await userRequest.patch(
       `/wishlist/${userId}/product/${product._id}?action=add`
     );
     dispatch(addWishlistSuccess(product));
@@ -66,7 +66,7 @@ export const deleteProductFromWishList = async (
 ) => {
   dispatch(deleteWishlistStart());
   try {
-    const res = await userRequest.patch(
+    await userRequest.patch(
       `/wishlist/${userId}/product/${productId}?action=remove`
     );
     dispatch(deleteWishlistSuccess(productId));

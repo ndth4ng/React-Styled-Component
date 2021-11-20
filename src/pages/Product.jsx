@@ -2,7 +2,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -87,6 +87,17 @@ const FilterColor = styled.div`
   background-color: ${(props) => props.color};
   margin: 0px 5px;
   cursor: pointer;
+
+  ${(props) =>
+    props.isChoose.isClick === true && props.isChoose.color === props.color
+      ? css`
+          border: 3px solid teal;
+          background-clip: content-box;
+        `
+      : css`
+          width: 20px;
+          height: 20px;
+        `}
 `;
 
 const FilterSize = styled.select`
@@ -134,28 +145,24 @@ const Button = styled.button`
 
 const FilterSizeOption = styled.option``;
 
+const ErrorMessage = styled.span`
+  color: red;
+`;
+
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
 
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const [chosenColor, setChosenColor] = useState("");
+  const [chosenColor, setChosenColor] = useState({
+    color: "",
+    isClick: null,
+  });
   const [chosenSize, setChosenSize] = useState("");
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const dispatch = useDispatch();
-
-  const handleQuantity = (type) => {
-    if (type === "dec") {
-      quantity > 1 && setQuantity(quantity - 1);
-    } else if (type === "inc") {
-      setQuantity(quantity + 1);
-    }
-  };
-
-  const handleClick = () => {
-    dispatch(addProduct({ ...product, quantity, color: chosenColor, size: chosenSize }));
-  };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -168,6 +175,40 @@ const Product = () => {
     };
     getProduct();
   }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else if (type === "inc") {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const onColorClick = (color) => {
+    setChosenColor({ color: color, isClick: true });
+  };
+
+  const handleClick = () => {
+    if (chosenColor.color !== "" && chosenSize !== "") {
+      dispatch(
+        addProduct({
+          ...product,
+          quantity,
+          color: chosenColor.color,
+          size: chosenSize,
+        })
+      );
+    } else {
+      setErrorMessage(true);
+    }
+  };
+
+  // console.log({
+  //   ...product,
+  //   quantity,
+  //   color: chosenColor.color,
+  //   size: chosenSize,
+  // });
 
   return (
     <Container>
@@ -190,13 +231,15 @@ const Product = () => {
                   <FilterColor
                     color={c}
                     key={c}
-                    onClick={() => setChosenColor(c)}
+                    onClick={() => onColorClick(c)}
+                    isChoose={chosenColor}
                   />
                 ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize onChange={(e) => setChosenSize(e.target.value)}>
+                <FilterSizeOption></FilterSizeOption>
                 {product.size &&
                   product.size.map((s) => (
                     <FilterSizeOption key={s}>{s}</FilterSizeOption>
@@ -213,6 +256,10 @@ const Product = () => {
             </AmountContainer>
             <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
+
+          {errorMessage === true && (
+            <ErrorMessage>Please choose both color and size</ErrorMessage>
+          )}
         </InfoContainer>
       </Wrapper>
       <Newsletter />

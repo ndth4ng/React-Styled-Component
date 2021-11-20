@@ -199,6 +199,7 @@ const EditButton = styled.button`
 `;
 
 const Profile = () => {
+  const handleChange = () => {};
   return (
     <Container>
       <Announcement />
@@ -236,11 +237,11 @@ const Profile = () => {
             <InfoContainer>
               <InfoItem>
                 <InfoKey>First Name</InfoKey>
-                <InfoValue type="text" value="Thang" />
+                <InfoValue type="text" value="Thang" onChange={handleChange} />
               </InfoItem>
               <InfoItem>
                 <InfoKey>Last Name</InfoKey>
-                <InfoValue type="text" value="Nguyen" />
+                <InfoValue type="text" value="Nguyen" onChange={handleChange} />
               </InfoItem>
               <InfoItem>
                 <InfoKey>Email</InfoKey>
@@ -248,7 +249,11 @@ const Profile = () => {
               </InfoItem>
               <InfoItem>
                 <InfoKey>Birthday</InfoKey>
-                <InfoValue type="date" value="2000-07-19" />
+                <InfoValue
+                  type="date"
+                  value="2000-07-19"
+                  onChange={handleChange}
+                />
               </InfoItem>
               <ChangePasswordButton>Change Password</ChangePasswordButton>
             </InfoContainer>

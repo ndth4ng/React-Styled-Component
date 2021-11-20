@@ -31,7 +31,7 @@ const Desc = styled.p`
   margin: 25px 0;
 `;
 
-const SocialContainer = styled.h1`
+const SocialContainer = styled.div`
   display: flex;
 `;
 

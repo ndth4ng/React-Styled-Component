@@ -5,11 +5,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProductFromWishList, fetchWishlist } from "../redux/apiCalls";
+import { deleteProductFromWishList } from "../redux/apiCalls";
 import { useHistory } from "react-router-dom";
-import { useEffect } from "react";
-import { userRequest } from "../requestMethods";
-import { useState } from "react";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -23,7 +20,7 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const TableWrapper = styled.table`
+const TableWrapper = styled.div`
   width: 70%;
   padding: 20px;
 `;
@@ -148,7 +145,6 @@ const Wishlist = () => {
             rowHeight={100}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            getRowClassName
             disableSelectionOnClick
             autoHeight
           />

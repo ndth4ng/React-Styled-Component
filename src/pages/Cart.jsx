@@ -9,8 +9,10 @@ import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
-const KEY = process.env.REACT_APP_STRIPE;
+const KEY =
+  "pk_test_51JnbfsLs9270OQw08yXH6XcYEfNZR3BnYZCcvHmmZAUTUFrhFN6hD0Ktfikt1KuePGnpCT9g6tbjQ1AFYfzXL5lz00aVdftlvu";
 
 const Container = styled.div``;
 
@@ -183,6 +185,7 @@ const SummaryButton = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const wishlist = useSelector((state) => state.wishlist);
   const [stripeToken, setStripeToken] = useState(null);
   const history = useHistory();
 
@@ -211,16 +214,26 @@ const Cart = () => {
         <Title>MY CART</Title>
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
+          {cart.quantity === 0 && (
+            <span>YOU DON'T HAVE ANY ITEM IN YOUR CART</span>
+          )}
           <TopTexts>
-            <TopText>Shopping Cart (2)</TopText>
-            <TopText>Your wishlist (0)</TopText>
+            <TopText>Shopping Cart ({cart.quantity})</TopText>
+            <Link
+              to="/wishlist"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <TopText>Your wishlist ({wishlist.products.length})</TopText>
+            </Link>
           </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
+          {cart.quantity !== 0 && (
+            <TopButton type="filled">CHECKOUT NOW</TopButton>
+          )}
         </Top>
         <Bottom>
           <Info>
             {cart.products.map((product) => (
-              <Product>
+              <Product key={`${product._id}${product.color}${product.size}`}>
                 <ProductDetail>
                   <Image src={product.img} />
                   <Details>
@@ -249,36 +262,38 @@ const Cart = () => {
             ))}
             <Hr />
           </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
-            <StripeCheckout
-              name="DEV Shop"
-              billingAddress
-              shippingAddress
-              description={`Your total is ${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
-              <SummaryButton>CHECKOUT NOW</SummaryButton>
-            </StripeCheckout>
-          </Summary>
+          {cart.quantity !== 0 && (
+            <Summary>
+              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+              <SummaryItem>
+                <SummaryItemText>Subtotal</SummaryItemText>
+                <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Estimated Shipping</SummaryItemText>
+                <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Shipping Discount</SummaryItemText>
+                <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem type="total">
+                <SummaryItemText>Total</SummaryItemText>
+                <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              </SummaryItem>
+              <StripeCheckout
+                name="DEV Shop"
+                billingAddress
+                shippingAddress
+                description={`Your total is ${cart.total}`}
+                amount={cart.total * 100}
+                token={onToken}
+                stripeKey={KEY}
+              >
+                <SummaryButton>CHECKOUT NOW</SummaryButton>
+              </StripeCheckout>
+            </Summary>
+          )}
         </Bottom>
       </Wrapper>
       <Footer />
