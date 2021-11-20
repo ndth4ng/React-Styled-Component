@@ -1,5 +1,6 @@
 import { Add, Remove } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import ClearIcon from "@mui/icons-material/Clear";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -10,6 +11,11 @@ import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import {
+  decreaseQuantity,
+  deleteProduct,
+  increaseQuantity,
+} from "../redux/cartRedux";
 
 const KEY =
   "pk_test_51JnbfsLs9270OQw08yXH6XcYEfNZR3BnYZCcvHmmZAUTUFrhFN6hD0Ktfikt1KuePGnpCT9g6tbjQ1AFYfzXL5lz00aVdftlvu";
@@ -80,10 +86,19 @@ const Product = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+  position: relative;
 
   ${mobile({
     flexDirection: "column",
   })}
+`;
+
+const ClearProductIcon = styled(ClearIcon)`
+  cursor: pointer;
+  position: absolute;
+  color: red;
+  right: 20px;
+  top: 20px;
 `;
 
 const ProductDetail = styled.div`
@@ -188,6 +203,7 @@ const Cart = () => {
   const wishlist = useSelector((state) => state.wishlist);
   const [stripeToken, setStripeToken] = useState(null);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onToken = (token) => {
     setStripeToken(token);
@@ -205,6 +221,18 @@ const Cart = () => {
     };
     stripeToken && makeRequest();
   }, [stripeToken, cart.total, history, cart]);
+
+  const handleClear = (productId, color, size) => {
+    dispatch(deleteProduct({ productId, color, size }));
+  };
+
+  const handleIncrease = (productId, color, size) => {
+    dispatch(increaseQuantity({ productId, color, size }));
+  };
+
+  const handleDecrease = (productId, color, size) => {
+    dispatch(decreaseQuantity({ productId, color, size }));
+  };
 
   return (
     <Container>
@@ -234,6 +262,11 @@ const Cart = () => {
           <Info>
             {cart.products.map((product) => (
               <Product key={`${product._id}${product.color}${product.size}`}>
+                <ClearProductIcon
+                  onClick={() =>
+                    handleClear(product._id, product.color, product.size)
+                  }
+                />
                 <ProductDetail>
                   <Image src={product.img} />
                   <Details>
@@ -250,9 +283,17 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Remove />
+                    <Remove
+                      onClick={() =>
+                        handleDecrease(product._id, product.color, product.size)
+                      }
+                    />
                     <ProductAmount>{product.quantity}</ProductAmount>
-                    <Add />
+                    <Add
+                      onClick={() =>
+                        handleIncrease(product._id, product.color, product.size)
+                      }
+                    />
                   </ProductAmountContainer>
                   <ProductPrice>
                     $ {product.price * product.quantity}
