@@ -4,14 +4,33 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
-const Container = styled.div``;
-const Wrapper = styled.div`
+import { mobile } from "../responsive";
+
+const Container = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
-  padding: 20px 200px;
+  padding: 20px;
+
+  ${mobile({
+    padding: "0px",
+  })}
+`;
+const Wrapper = styled.div`
+  width: 70%;
+  display: flex;
+  justify-content: center;
+
+  ${mobile({
+    width: "90%",
+    flexDirection: "column",
+  })}
 `;
 const Left = styled.div`
   flex: 1;
+  ${mobile({
+    marginTop: "20px",
+  })}
 `;
 const LeftTop = styled.div`
   margin-bottom: 10px;
@@ -22,6 +41,10 @@ const LeftTop = styled.div`
   border: none;
   border-radius: 5px;
   background-color: #b2d8d8;
+
+  ${mobile({
+    padding: "10px",
+  })}
 `;
 const SmallImg = styled.img`
   width: 50px;
@@ -44,11 +67,21 @@ const LeftBottom = styled.div`
   border: none;
   border-radius: 5px;
   background-color: #b2d8d8;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const List = styled.ul`
   padding: 0 40px;
   list-style: none;
+  border-bottom: 1px solid gray;
+
+  ${mobile({
+    border: "none",
+  })}
 `;
 const ListItem = styled.li`
   cursor: pointer;
@@ -56,20 +89,22 @@ const ListItem = styled.li`
   font-weight: 500;
   margin-bottom: 15px;
   color: teal;
+
+  ${mobile({
+    fontSize: "16px",
+    textAlign: "center",
+  })}
 `;
-const Hr = styled.hr`
-  background-color: gray;
-`;
+
 const Logout = styled.button`
   width: 100px;
   cursor: pointer;
-  margin-left: 40px;
-  margin-top: 20px;
   font-size: 18px;
   font-weight: 300;
   border-radius: 5px;
   border: none;
   padding: 5px;
+  margin-top: 20px;
 `;
 const Right = styled.div`
   flex: 3;
@@ -77,12 +112,26 @@ const Right = styled.div`
   border-radius: 5px;
   -webkit-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.4);
   box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.4);
+
+  ${mobile({
+    marginLeft: "0px",
+    marginTop: "20px",
+  })}
 `;
 const RightTop = styled.div`
   padding: 40px 40px;
+
+  ${mobile({
+    padding: "10px",
+    textAlign: "center",
+  })}
 `;
 const Title = styled.h1`
   color: teal;
+
+  ${mobile({
+    fontSize: "21px",
+  })}
 `;
 const RightCenter = styled.div`
   border-top: 0.5px solid gray;
@@ -95,11 +144,19 @@ const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-right: 0.5px solid gray;
+
+  ${mobile({
+    border: "none",
+  })}
 `;
 const InfoItem = styled.div`
   display: flex;
   font-size: 21px;
   margin-bottom: 25px;
+
+  ${mobile({
+    flexDirection: "column",
+  })}
 `;
 const InfoKey = styled.span`
   flex: 1;
@@ -118,6 +175,10 @@ const InfoValue = styled.input`
   &:focus {
     outline: none;
   }
+
+  ${mobile({
+    flex: "0",
+  })}
 `;
 
 const ChangePasswordButton = styled.button`
@@ -137,6 +198,10 @@ const ImgContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
+  ${mobile({
+    display: "none",
+  })}
 `;
 const ImgTitle = styled.span`
   font-size: 18px;
@@ -163,12 +228,21 @@ const RightBottom = styled.div`
   padding: 20px 0 40px 0;
   display: flex;
   justify-content: flex-end;
+
+  ${mobile({
+    padding: "20px",
+  })}
 `;
 const MemberContainer = styled.div`
   flex: 2;
   padding: 0 40px;
   display: flex;
   flex-direction: column;
+
+  ${mobile({
+    display: "none",
+    padding: "0px",
+  })}
 `;
 const MemberTitle = styled.span`
   font-size: 21px;
@@ -201,84 +275,94 @@ const EditButton = styled.button`
 const Profile = () => {
   const handleChange = () => {};
   return (
-    <Container>
+    <>
       <Announcement />
       <Navbar />
-      <Wrapper>
-        <Left>
-          <LeftTop>
-            <SmallImg
-              src="https://firebasestorage.googleapis.com/v0/b/shop-2edcf.appspot.com/o/163664544026275519312_2575922042638572_6888852351344443392_n.jpg?alt=media&token=26bc9b04-1554-4fef-9c7b-9ea30c2d3775"
-              alt=""
-            />
-            <ShortInfo>
-              <Fullname>Thang Nguyen</Fullname>
-              <MemberName>Gold Member</MemberName>
-            </ShortInfo>
-          </LeftTop>
-          <LeftBottom>
-            <List>
-              <ListItem>My Orders</ListItem>
-              <Link to="/wishlist" style={{ textDecoration: "none" }}>
-                <ListItem>Wishlist</ListItem>
-              </Link>
-              <ListItem>Notifications</ListItem>
-              <ListItem>Settings</ListItem>
-            </List>
-            <Hr />
-            <Logout>Log out</Logout>
-          </LeftBottom>
-        </Left>
-        <Right>
-          <RightTop>
-            <Title>Customer Profile</Title>
-          </RightTop>
-          <RightCenter>
-            <InfoContainer>
-              <InfoItem>
-                <InfoKey>First Name</InfoKey>
-                <InfoValue type="text" value="Thang" onChange={handleChange} />
-              </InfoItem>
-              <InfoItem>
-                <InfoKey>Last Name</InfoKey>
-                <InfoValue type="text" value="Nguyen" onChange={handleChange} />
-              </InfoItem>
-              <InfoItem>
-                <InfoKey>Email</InfoKey>
-                <InfoValue type="text" value="ndth4ng@gmail.com" disabled />
-              </InfoItem>
-              <InfoItem>
-                <InfoKey>Birthday</InfoKey>
-                <InfoValue
-                  type="date"
-                  value="2000-07-19"
-                  onChange={handleChange}
-                />
-              </InfoItem>
-              <ChangePasswordButton>Change Password</ChangePasswordButton>
-            </InfoContainer>
-            <ImgContainer>
-              <ImgTitle>Profile Image</ImgTitle>
-              <ProfileImg
+      <Container>
+        <Wrapper>
+          <Left>
+            <LeftTop>
+              <SmallImg
                 src="https://firebasestorage.googleapis.com/v0/b/shop-2edcf.appspot.com/o/163664544026275519312_2575922042638572_6888852351344443392_n.jpg?alt=media&token=26bc9b04-1554-4fef-9c7b-9ea30c2d3775"
                 alt=""
               />
-              <UploadImgButton>Upload New</UploadImgButton>
-            </ImgContainer>
-          </RightCenter>
-          <RightBottom>
-            <MemberContainer>
-              <MemberTitle>Member</MemberTitle>
-              <MemberName>Gold Member</MemberName>
-            </MemberContainer>
-            <EditContainer>
-              <EditButton>Edit Profile</EditButton>
-            </EditContainer>
-          </RightBottom>
-        </Right>
-      </Wrapper>
+              <ShortInfo>
+                <Fullname>Thang Nguyen</Fullname>
+                <MemberName>Gold Member</MemberName>
+              </ShortInfo>
+            </LeftTop>
+            <LeftBottom>
+              <List>
+                <ListItem>My Orders</ListItem>
+                <Link to="/wishlist" style={{ textDecoration: "none" }}>
+                  <ListItem>Wishlist</ListItem>
+                </Link>
+                <ListItem>Notifications</ListItem>
+                <ListItem>Settings</ListItem>
+              </List>
+
+              <Logout>Log out</Logout>
+            </LeftBottom>
+          </Left>
+          <Right>
+            <RightTop>
+              <Title>Customer Profile</Title>
+            </RightTop>
+            <RightCenter>
+              <InfoContainer>
+                <InfoItem>
+                  <InfoKey>First Name</InfoKey>
+                  <InfoValue
+                    type="text"
+                    value="Thang"
+                    onChange={handleChange}
+                  />
+                </InfoItem>
+                <InfoItem>
+                  <InfoKey>Last Name</InfoKey>
+                  <InfoValue
+                    type="text"
+                    value="Nguyen"
+                    onChange={handleChange}
+                  />
+                </InfoItem>
+                <InfoItem>
+                  <InfoKey>Email</InfoKey>
+                  <InfoValue type="text" value="ndth4ng@gmail.com" disabled />
+                </InfoItem>
+                <InfoItem>
+                  <InfoKey>Birthday</InfoKey>
+                  <InfoValue
+                    type="date"
+                    value="2000-07-19"
+                    onChange={handleChange}
+                  />
+                </InfoItem>
+                <ChangePasswordButton>Change Password</ChangePasswordButton>
+              </InfoContainer>
+              <ImgContainer>
+                <ImgTitle>Profile Image</ImgTitle>
+                <ProfileImg
+                  src="https://firebasestorage.googleapis.com/v0/b/shop-2edcf.appspot.com/o/163664544026275519312_2575922042638572_6888852351344443392_n.jpg?alt=media&token=26bc9b04-1554-4fef-9c7b-9ea30c2d3775"
+                  alt=""
+                />
+                <UploadImgButton>Upload New</UploadImgButton>
+              </ImgContainer>
+            </RightCenter>
+            <RightBottom>
+              <MemberContainer>
+                <MemberTitle>Member</MemberTitle>
+                <MemberName>Gold Member</MemberName>
+              </MemberContainer>
+              <EditContainer>
+                <EditButton>Edit Profile</EditButton>
+              </EditContainer>
+            </RightBottom>
+          </Right>
+        </Wrapper>
+      </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

@@ -18,6 +18,8 @@ import {
   fetchWishlistFailure,
 } from "./wishlistRedux";
 
+import { showNotify } from "../utils/showNotify";
+
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
   try {
@@ -44,16 +46,22 @@ export const fetchWishlist = async (dispatch, userId) => {
     dispatch(fetchWishlistSuccess(res.data));
   } catch (error) {
     dispatch(fetchWishlistFailure());
+    console.log(error);
   }
 };
 
 export const addProductToWishList = async (dispatch, userId, product) => {
   dispatch(addWishlistStart());
   try {
-    await userRequest.patch(
+    const res = await userRequest.patch(
       `/wishlist/${userId}/product/${product._id}?action=add`
     );
-    dispatch(addWishlistSuccess(product));
+    if (res.data.success) {
+      showNotify(res.data.msg, "success");
+      dispatch(addWishlistSuccess(product));
+    } else {
+      showNotify(res.data.msg, "danger");
+    }
   } catch (error) {
     dispatch(addWishlistFailure());
   }
