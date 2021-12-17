@@ -10,7 +10,7 @@ import { mobile } from "../responsive";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchWishlist, logout } from "../redux/apiCalls";
+import { fetchData, logout } from "../redux/apiCalls";
 
 const Container = styled.div`
   height: 60px;
@@ -101,17 +101,16 @@ const UserImg = styled.img`
 `;
 
 const Navbar = () => {
-  const quantity = useSelector((state) => state.cart.quantity);
+  const cart = useSelector((state) => state.cart);
   const { currentUser, isAuthenticated } = useSelector((state) => state.user);
-  const wishlist = useSelector((state) => state.wishlist.products);
+  // const wishlist = useSelector((state) => state.wishlist.products);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchWishlist(dispatch, currentUser._id);
+      fetchData(dispatch, currentUser._id);
     }
-    return null;
   }, [isAuthenticated, dispatch, currentUser]);
 
   const handleLogout = () => {
@@ -174,7 +173,7 @@ const Navbar = () => {
           {currentUser && (
             <MenuItem>
               <Link to="/wishlist" style={{ color: "inherit" }}>
-                <Badge badgeContent={wishlist.length} color="secondary">
+                <Badge badgeContent={0} color="secondary">
                   <FavoriteBorderOutlined />
                 </Badge>
               </Link>
@@ -182,7 +181,7 @@ const Navbar = () => {
           )}
           <MenuItem>
             <Link to="/cart" style={{ color: "inherit" }}>
-              <Badge badgeContent={quantity} color="primary">
+              <Badge badgeContent={cart.quantity} color="primary">
                 <ShoppingCartOutlined />
               </Badge>
             </Link>

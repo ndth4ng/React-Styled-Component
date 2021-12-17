@@ -17,6 +17,7 @@ import {
   fetchWishlistSuccess,
   fetchWishlistFailure,
 } from "./wishlistRedux";
+import { addProduct, loadProduct } from "./cartRedux";
 
 import { showNotify } from "../utils/showNotify";
 
@@ -37,6 +38,28 @@ export const login = async (dispatch, user) => {
 
 export const logout = (dispatch) => {
   dispatch(logoutSuccess());
+};
+
+export const fetchData = async (dispatch, userId) => {
+  try {
+    const res = await userRequest.get(`/cart/find/${userId}`);
+    dispatch(loadProduct(res.data));
+  } catch (error) {}
+};
+
+export const addProductToCart = async (dispatch, product, userId) => {
+  dispatch(addProduct(product));
+  try {
+    const newProduct = {
+      productId: product._id,
+      quantity: product.quantity,
+      size: product.size,
+      color: product.color,
+    };
+    const res = await userRequest.put(`/cart/${userId}`, newProduct);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const fetchWishlist = async (dispatch, userId) => {

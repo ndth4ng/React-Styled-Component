@@ -2,6 +2,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router";
+import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -9,8 +10,8 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 import { publicRequest } from "../requestMethods";
-import { addProduct } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductToCart } from "../redux/apiCalls";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -150,8 +151,11 @@ const ErrorMessage = styled.span`
 `;
 
 const Product = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
   const location = useLocation();
+  const history = useHistory();
   const id = location.pathname.split("/")[2];
+  const path = location.pathname;
 
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
@@ -193,26 +197,24 @@ const Product = () => {
   };
 
   const handleClick = () => {
+    if (!currentUser) {
+      return history.push("/login", { path: path });
+    }
     if (chosenColor.color !== "" && chosenSize !== "") {
-      dispatch(
-        addProduct({
+      addProductToCart(
+        dispatch,
+        {
           ...product,
           quantity,
           color: chosenColor.color,
           size: chosenSize,
-        })
+        },
+        currentUser._id
       );
     } else {
       setErrorMessage(true);
     }
   };
-
-  // console.log({
-  //   ...product,
-  //   quantity,
-  //   color: chosenColor.color,
-  //   size: chosenSize,
-  // });
 
   return (
     <Container>

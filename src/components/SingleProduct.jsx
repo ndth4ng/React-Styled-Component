@@ -1,8 +1,4 @@
-import {
-  FavoriteBorder,
-  SearchOutlined,
-  ShoppingCartOutlined,
-} from "@material-ui/icons";
+import { FavoriteBorder, SearchOutlined } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";

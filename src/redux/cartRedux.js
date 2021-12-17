@@ -8,6 +8,32 @@ const cartSlice = createSlice({
     total: 0,
   },
   reducers: {
+    loadProduct: (state, action) => {
+      // Get cart products
+      const list = action.payload.list.map((product) => {
+        return {
+          ...product.productId,
+          color: product.color,
+          quantity: product.quantity,
+        };
+      });
+      state.products = list;
+
+      // Count quantity
+      let quantity = state.products.reduce((total, item) => {
+        return total + item.quantity;
+      }, 0);
+
+      state.quantity = quantity;
+
+      // Count total price
+      let totalPrice = null;
+      state.products.map((product) => {
+        return (totalPrice += product.quantity * product.price);
+      });
+
+      state.total = totalPrice;
+    },
     addProduct: (state, action) => {
       state.quantity += action.payload.quantity;
 
@@ -76,6 +102,7 @@ const cartSlice = createSlice({
 });
 
 export const {
+  loadProduct,
   addProduct,
   quantity,
   deleteProduct,

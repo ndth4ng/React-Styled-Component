@@ -9,18 +9,12 @@ import Success from "./pages/Success";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   return (
     <>
       <ReactNotification />
@@ -42,17 +36,13 @@ const App = () => {
             <Success />
           </Route>
           <Route path="/login">
-            {isAuthenticated ? <Redirect to="/" /> : <Login />}
+            <Login />
           </Route>
           <Route path="/register">
-            {isAuthenticated ? <Redirect to="/" /> : <Register />}
+            <Register />
           </Route>
-          <Route path="/profile">
-            {isAuthenticated ? <Profile /> : <Redirect to="/login" />}
-          </Route>
-          <Route path="/wishlist">
-            {isAuthenticated ? <Wishlist /> : <Redirect to="/login" />}
-          </Route>
+          <ProtectedRoute exact path="/profile" component={Profile} />
+          <ProtectedRoute exact path="/wishlist" component={Wishlist} />
         </Switch>
       </Router>
     </>

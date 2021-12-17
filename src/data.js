@@ -1,21 +1,21 @@
 export const sliderItems = [
   {
     id: 1,
-    img: "https://lh3.googleusercontent.com/VzmKAwYj-F0CcrDkcJ6lFGKPkrtwVHd1NXC42RfcBHu4OTh0so_Y8sjq4BSfxwK20SlYygSKaasKrXpz4A4NfPR6fZwY4_vS0BoxZCywBun6vJ6HrHiXNJPxO0l5Vpoii3rcmdx20Fa6bb9kbSGYpRJNF9V9Fl5UuEJ57zVOzaHw6tBcGyNmCuFfT4MwaUt6a-FN1l7YYkQwpCPwVGH4U920Oz4u-XXYfguoDTUhfJjSmvFsf8MfGTyUNNNSrOWcLDBE-KFjilG-afgUx-cb-Fe5JFgLZk48ChxVzYPFXu3zGWTWqtqqlA5SYOmdPLeGAWoDTl0OuAv246xNZmOv-wqqqIPwFC5-VyHOloCc-dqY7f27fnr2W-H87o-LogJASApPdzNiJWWgeMCEbq1KePDPCJ1PO2ivYUzMD-VXhoGQDcuSzRClOrbZyELWH9qHBJEnsXiB5tqA892BiwFNyMjraOMMsDwNR3iNZI5M-uZPLgNGceeoMYqOyA9O89B71tiBy-ilZXR7Kbwtjv5rjtuQRqgKFDtdElT5yFzAWo-OvTZ2AoRZ3hJ3_scbwfrBBQgg-3hq9sFFyiskLloJTKn6T4pcnCBo4sOrSDYzD-lrIEIO50Su6g1vs2iaH0qHqYd8FsudJ7frKzkKPtAaH9VOYQm1PmJUCANZOlbmGPHIz05t-L8uhUUN3dkc88OcYJXr43CRYMwfvmJd9zTMNA=w394-h633-no?authuser=4https://lh3.googleusercontent.com/gfemuYC2zE93xSPOViVpsG6Ibesg5M-xSOkVuDvhfx6VnlH5BeO7M1LwvT1JwhGHvYX3oMITqdA3YLalAeBabA0RscokLDSgG0F2A92snekLatqcTG_r3eNkOeMsnOcgn5gJgxEn6tViaxu4f-p7Etp3k_OesLVKPGRBo8QVtNQxOyDHPG7u1VvMyuF1wG8HnAHqKdbOyL23RxlpYyAlnqezZ3VILFWwu0bQP97HGhZQ_3foyYLxznOtyrHi5l5pJz_MtGEBSjhlBBQDYQCelMpgsLxO0Y_xa8S10BOKFD9PvO-qxEAtQ4jHUvzbPktClYF6o0Brr8EDcgGqRiJcRQefsRJil9NQHzWIO1wpeMwuxqD2j3lO9HGvHuWxOkUwQtH0Y3xCGCqIbd-mTlkP7DoWXnOYFu9Uy8D7C9Fb3fK3R94u1s4V2qoD1xBj7S6Zg5FZF2oZI-ThZDjmu7cECAkKWzeF1Hp0yoQz_gNkggHhQBMdlqxfSnTR4omo4dfWKM_04WhCCkXp9NhDypO6v03-I2-PapJsxKgFNrKvlGolw8z7zQ3Ck0_2HZSc-becZPypE7r45B-5zI8lMBFrh51nUbJWYJIzsGPJai23x9ifi9ozxUocH5rsJfIDM7GxPS4kyOqphz_MNoFQQLPJ2lpaHh1Hrzwgog-8BnU8cpmYTpCYi875tXDdfqtx34SGYqPyvXQH4Vg18SlE1u2r2Q=w394-h633-no?authuser=4",
+    img: "",
     title: "SUMMER SALE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
     bg: "f5fafd",
   },
   {
     id: 2,
-    img: "https://i.ibb.co/DG69bQ4/2.png",
+    img: "",
     title: "AUTUMN COLLECTION",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
     bg: "fcf1ed",
   },
   {
     id: 3,
-    img: "https://lh3.googleusercontent.com/ZLHM1eGB-PvTbjAlc7AnfbFBoLhZgOTaCfbecq6SvtzIQxmhBI7EcwfC7rTzzCv2216SzB_s9GJuyvYZ_1K_rDO8LlxoGf74Hs8ony1GCYnZ952qM7OAI1a8Q97CwQaFNidJGoylTQCUUIiQBofcGyi5YvaIkdMv-7TcCICOwtwjw8lzwh3t8zZ75giypOGzZIUKfGzhRkhmSX7Vs97O-WFPfWs2VY7J1O5dyxQ7cDG_6Xxb_07bVbMpiv9ldmWk8B9nb-XC17DeibwI6ilSqn0qjWHGnLKo3-6SsD2RGGfFu2DWdRt1CmeegCb6g4CV4nGXUNl17IYWoCCAGA2pzLRIhXhBRyinxFa_UOxRNn1GZYVIyfVBMzPLoGLGec6EtweytL6Z2nTsdgzFC9fLvJJDT7cA3qI4QpwjSvCWhRxVJBX5lHZ79ddPHKb24RWshcvcrUYEr9gGlahfwGP9Ln5EisORByo6EH2s3JudgX5UoBidzmzvN1YSgBXy0hVosBjGNDgMyjzsysxC2HuV6lf3nhcwtI2y3r1hgEhnoKATJit5FkAcgk8gNsFZQDbJdROwT_F_GvM7fUtWyzWc6gGiIsjcsYN95VLc8ooWSLZl_mGiy3bTUpVGB7UfDI1RZg9OW2bVjQppiDsywbax6jlds1eGvrxk702KZIrCVAqQTsNWUibVR-r0wt-Pl5-ukhMfXuvc1JxbYZqeu3-MjQ=w415-h601-no?authuser=4",
+    img: "",
     title: "LOUNGEWEAR LOVE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
     bg: "fbf0f4",

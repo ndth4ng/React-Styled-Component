@@ -202,13 +202,17 @@ const SummaryButton = styled.button`
   font-weight: 600;
 `;
 
+const Error = styled.span``;
+
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist);
-  const [stripeToken, setStripeToken] = useState(null);
+  const currentUser = useSelector((state) => state.user.currentUser);
+
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [stripeToken, setStripeToken] = useState(null);
   const onToken = (token) => {
     setStripeToken(token);
   };
@@ -220,6 +224,7 @@ const Cart = () => {
           tokenId: stripeToken.id,
           amount: cart.total * 100,
         });
+        console.log(stripeToken);
         history.push("/success", { stripeData: res.data, cart: cart });
       } catch (error) {}
     };
@@ -326,17 +331,21 @@ const Cart = () => {
                 <SummaryItemText>Total</SummaryItemText>
                 <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
               </SummaryItem>
-              <StripeCheckout
-                name="DEV Shop"
-                billingAddress
-                shippingAddress
-                description={`Your total is ${cart.total}`}
-                amount={cart.total * 100}
-                token={onToken}
-                stripeKey={KEY}
-              >
-                <SummaryButton>CHECKOUT NOW</SummaryButton>
-              </StripeCheckout>
+              {currentUser ? (
+                <StripeCheckout
+                  name="DEV Shop"
+                  billingAddress
+                  shippingAddress
+                  description={`Your total is ${cart.total}`}
+                  amount={cart.total * 100}
+                  token={onToken}
+                  stripeKey={KEY}
+                >
+                  <SummaryButton>CHECKOUT NOW</SummaryButton>
+                </StripeCheckout>
+              ) : (
+                <Error>Please sign in to check out!</Error>
+              )}
             </Summary>
           )}
         </Bottom>
