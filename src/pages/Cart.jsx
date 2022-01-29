@@ -9,7 +9,7 @@ import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   decreaseQuantity,
@@ -209,7 +209,7 @@ const Cart = () => {
   const wishlist = useSelector((state) => state.wishlist);
   const currentUser = useSelector((state) => state.user.currentUser);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [stripeToken, setStripeToken] = useState(null);
@@ -225,11 +225,11 @@ const Cart = () => {
           amount: cart.total * 100,
         });
         console.log(stripeToken);
-        history.push("/success", { stripeData: res.data, cart: cart });
+        navigate("/success", { stripeData: res.data, cart: cart });
       } catch (error) {}
     };
     stripeToken && makeRequest();
-  }, [stripeToken, cart.total, history, cart]);
+  }, [stripeToken, cart.total, cart, navigate]);
 
   const handleClear = (productId, color, size) => {
     dispatch(deleteProduct({ productId, color, size }));
@@ -245,8 +245,6 @@ const Cart = () => {
 
   return (
     <Container>
-      <Announcement />
-      <Navbar />
       <Wrapper>
         <Title>MY CART</Title>
         <Top>
@@ -350,7 +348,6 @@ const Cart = () => {
           )}
         </Bottom>
       </Wrapper>
-      <Footer />
     </Container>
   );
 };

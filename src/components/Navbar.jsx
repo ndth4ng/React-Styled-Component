@@ -1,16 +1,20 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {
-  FavoriteBorderOutlined,
-  Search,
-  ShoppingCartOutlined,
-} from "@material-ui/icons";
-import { Badge } from "@material-ui/core";
+import { FavoriteBorderOutlined, Search } from "@material-ui/icons";
+
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
+import { Drawer } from "antd";
+
+import MenuIcon from "@mui/icons-material/Menu";
+import { Badge } from "antd";
 import { mobile } from "../responsive";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchData, logout } from "../redux/apiCalls";
+import { useState } from "react";
+import Sidebar from "./Mobile/Sidebar";
 
 const Container = styled.div`
   height: 60px;
@@ -32,15 +36,6 @@ const Left = styled.div`
   align-items: center;
 `;
 
-const Language = styled.span`
-  font-size: 14px;
-  cursor: pointer;
-
-  ${mobile({
-    display: "none",
-  })}
-`;
-
 const SearchContainer = styled.div`
   border: 0.5px solid lightgray;
   display: flex;
@@ -49,38 +44,6 @@ const SearchContainer = styled.div`
   padding: 5px;
   ${mobile({
     marginLeft: "0px",
-  })}
-`;
-
-const Input = styled.input`
-  border: none;
-  outline: none;
-
-  ${mobile({
-    width: "70px",
-  })}
-`;
-
-const Center = styled.div`
-  flex: 1;
-  text-align: center;
-`;
-
-const Logo = styled.h1`
-  font-weight: bold;
-  ${mobile({
-    fontSize: "24px",
-  })}
-`;
-
-const Right = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  ${mobile({
-    flex: 2,
-    justifyContent: "center",
   })}
 `;
 
@@ -101,6 +64,10 @@ const UserImg = styled.img`
 `;
 
 const Navbar = () => {
+  //state
+  const [visible, setVisible] = useState(false); // Sidebar
+
+  //selector
   const cart = useSelector((state) => state.cart);
   const { currentUser, isAuthenticated } = useSelector((state) => state.user);
   // const wishlist = useSelector((state) => state.wishlist.products);
@@ -118,24 +85,34 @@ const Navbar = () => {
   };
 
   return (
-    <Container>
-      <Wrapper>
-        <Left>
-          <Language>EN</Language>
+    <div className="h-[60px] bg-gray-200">
+      <div className="flex items-center justify-center h-full px-5 py-2">
+        {/* Left */}
+        <div className="flex items-center flex-1 md:invisible">
+          {/* <Language>EN</Language>
           <SearchContainer>
             <Input placeholder="Search" />
             <Search
               style={{ color: "gray", fontSize: 16, cursor: "pointer" }}
             />
-          </SearchContainer>
-        </Left>
-        <Center>
+          </SearchContainer> */}
+
+          {/* Mobile */}
+          <MenuIcon className="!text-3xl" onClick={() => setVisible(true)} />
+          <Sidebar visible={visible} onClose={setVisible} />
+        </div>
+
+        {/* Center */}
+        <div className="flex-1 text-center">
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            <Logo>DEV.</Logo>
+            <span className="text-2xl font-bold cursor-pointer">DEV.</span>
           </Link>
-        </Center>
-        <Right>
+        </div>
+
+        {/* Right */}
+        <div className="flex items-center justify-end flex-1">
           <Link
+            className="hidden"
             style={{ textDecoration: "none", color: "inherit" }}
             to="/register"
           >
@@ -145,6 +122,7 @@ const Navbar = () => {
           </Link>
           <Link
             to="/login"
+            className="hidden"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <MenuItem style={currentUser && { display: "none" }}>
@@ -160,6 +138,7 @@ const Navbar = () => {
           {isAuthenticated && (
             <MenuItem>
               <Link
+                className="hidden"
                 to="/profile"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
@@ -181,14 +160,14 @@ const Navbar = () => {
           )}
           <MenuItem>
             <Link to="/cart" style={{ color: "inherit" }}>
-              <Badge badgeContent={cart.quantity} color="primary">
-                <ShoppingCartOutlined />
+              <Badge count={5}>
+                <ShoppingCartOutlinedIcon className="!text-2xl" />
               </Badge>
             </Link>
           </MenuItem>
-        </Right>
-      </Wrapper>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 export default Navbar;

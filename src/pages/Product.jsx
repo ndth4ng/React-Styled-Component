@@ -2,7 +2,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -153,7 +153,7 @@ const ErrorMessage = styled.span`
 const Product = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const id = location.pathname.split("/")[2];
   const path = location.pathname;
 
@@ -198,7 +198,7 @@ const Product = () => {
 
   const handleClick = () => {
     if (!currentUser) {
-      return history.push("/login", { path: path });
+      return navigate("/login", { path: path });
     }
     if (chosenColor.color !== "" && chosenSize !== "") {
       addProductToCart(

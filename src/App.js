@@ -9,43 +9,25 @@ import Success from "./pages/Success";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./pages/Layout";
 
 const App = () => {
   return (
-    <>
-      <ReactNotification />
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/products/:category">
-            <ProductList />
-          </Route>
-          <Route path="/product/:id">
-            <Product />
-          </Route>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-          <Route path="/success">
-            <Success />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <ProtectedRoute exact path="/profile" component={Profile} />
-          <ProtectedRoute exact path="/wishlist" component={Wishlist} />
-        </Switch>
-      </Router>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="cart" element={<Cart />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

@@ -100,7 +100,7 @@ const Payment = styled.img`
 
 const Footer = () => {
   return (
-    <Container>
+    <div className="flex flex-col pb-16 md:p-0 md:flex-row md:m-0">
       <Left>
         <Logo>DEV.</Logo>
         <Desc>
@@ -157,7 +157,7 @@ const Footer = () => {
           <Payment src="https://play-lh.googleusercontent.com/F8cUV5oOLjCTMSvSRymK1154MwKalnvkepN4xGrfWBC_tcXvNTq_sEStiwCYV61lRdI" />
         </PaymentContainer>
       </Right>
-    </Container>
+    </div>
   );
 };
 

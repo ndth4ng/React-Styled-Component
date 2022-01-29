@@ -17,7 +17,7 @@ import {
   fetchWishlistSuccess,
   fetchWishlistFailure,
 } from "./wishlistRedux";
-import { addProduct, loadProduct } from "./cartRedux";
+import { addProduct, increaseQuantity, loadProduct } from "./cartRedux";
 
 import { showNotify } from "../utils/showNotify";
 
@@ -59,6 +59,22 @@ export const addProductToCart = async (dispatch, product, userId) => {
     const res = await userRequest.put(`/cart/${userId}`, newProduct);
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+export const updateCart = async (dispatch, product, userId, type) => {
+  //type: increase, descrease, remove
+  switch (type) {
+    case "increase":
+      dispatch(increaseQuantity());
+      break;
+    case "decrease":
+      break;
+    case "remove":
+      break;
+
+    default:
+      break;
   }
 };
 

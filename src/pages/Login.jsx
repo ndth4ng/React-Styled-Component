@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
@@ -60,10 +60,11 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
+const LinkTo = styled.a`
   margin: 5px 0;
   font-size: 16px;
   text-decoration: underline;
+  color: inherit;
   cursor: pointer;
 `;
 
@@ -80,7 +81,7 @@ const Login = () => {
   );
 
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const path = location.state?.path;
 
@@ -92,35 +93,43 @@ const Login = () => {
   useEffect(() => {
     if (isAuthenticated) {
       if (path) {
-        history.push(path);
+        navigate(path);
       } else {
-        history.push("/");
+        navigate("/");
       }
     }
-  }, [isAuthenticated, path, history]);
+  }, [isAuthenticated, path, navigate]);
   return (
     <Container>
-      <Wrapper>
-        <Title>SIGN IN</Title>
-        <Form>
-          <Input
+      <div className="w-[90%] md:w-1/3 xl:w-1/4  bg-white p-4">
+        <h1 className="text-xl mb-4">SIGN IN</h1>
+        <form className="flex flex-col space-y-3">
+          <input
+            className="input"
             placeholder="email"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input
+          <input
+            className="input"
             placeholder="password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Button onClick={handleClick} disabled={isFetching}>
-            LOG IN
-          </Button>
+          <button
+            className="bg-teal-700 text-white w-2/4 py-3 px-2 mx-auto"
+            onClick={handleClick}
+            disabled={isFetching}
+          >
+            LOGIN
+          </button>
           {error && <Error>Something went wrong...</Error>}
-          <Link>DO NOT REMEMBER YOUR PASSWORD?</Link>
-          <Link>CREATE NEW ACCOUNT</Link>
-        </Form>
-      </Wrapper>
+          <span className="underline">DO NOT REMEMBER YOUR PASSWORD?</span>
+          <Link to="/register" className="text-inherit underline">
+            CREATE NEW ACCOUNT
+          </Link>
+        </form>
+      </div>
     </Container>
   );
 };

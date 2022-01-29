@@ -1,7 +1,7 @@
 import { FavoriteBorder, SearchOutlined } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 
 import styled from "styled-components";
 import { addProductToWishList } from "../redux/apiCalls";
@@ -70,7 +70,7 @@ const Icon = styled.div`
 
 const SingleProduct = ({ item }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
 
   const currentUser = useSelector((state) => state.user.currentUser);
 
@@ -81,7 +81,7 @@ const SingleProduct = ({ item }) => {
       userId = currentUser._id;
       addProductToWishList(dispatch, userId, item);
     } else {
-      history.push("/login");
+      // history.push("/login");
     }
   };
   return (
