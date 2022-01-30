@@ -9,8 +9,8 @@ const Home = () => {
     <>
       <Slider />
       {/* <Categories /> */}
-      {/* <NewProducts /> */}
-      {/* <Newsletter /> */}
+      <NewProducts />
+      <Newsletter />
     </>
   );
 };

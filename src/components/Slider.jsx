@@ -16,9 +16,9 @@ const Slide = styled.div`
   width: 100vw;
   height: 100%;
   display: flex;
+  padding: 0 20px;
   align-items: center;
   background-color: #${(props) => props.bg};
-  padding: 20px;
 
   ${mobile({
     flexDirection: "column",
@@ -67,7 +67,7 @@ const Slider = () => {
   };
 
   return (
-    <div className="relative h-[80vh] md:h-[calc(100%-90px)] w-screen flex overflow-hidden">
+    <div className="relative h-[80vh] md:h-[calc(100%-90px)] flex overflow-hidden">
       <div className="slider-arrow-left" onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </div>

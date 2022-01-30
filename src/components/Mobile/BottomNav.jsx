@@ -26,7 +26,7 @@ const BottomNav = () => {
           Wishlist
         </div>
       </Link>
-      <Link to="/profile" className="bottom-nav-item">
+      <Link to="/login" className="bottom-nav-item">
         <div className="flex flex-col items-center">
           <PersonIcon />
           Profile

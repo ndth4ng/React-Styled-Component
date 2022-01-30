@@ -8,6 +8,9 @@ import Footer from "../components/Footer";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router";
 import { useState } from "react";
+import { useGetProductsQuery } from "../services/products";
+
+import { Pagination } from "antd";
 
 const Container = styled.div``;
 
@@ -17,7 +20,7 @@ const Title = styled.h1`
 
 const FilterContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 const Filter = styled.div`
@@ -56,7 +59,8 @@ const ProductList = () => {
   const location = useLocation();
   const cate = location.pathname.split("/")[2];
   const [filters, setFilters] = useState({});
-  const [sort, setSort] = useState("newest");
+
+  const [sort, setSort] = useState(""); // newest
 
   const handleFilters = (e) => {
     setFilters({
@@ -64,44 +68,43 @@ const ProductList = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   return (
     <Container>
-      <Announcement />
-      <Navbar />
       <Title>Dresses</Title>
       <FilterContainer>
-        <Filter>
+        {/* <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select name="color" onChange={handleFilters}>
-            <Option disabled>Color</Option>
-            <Option>white</Option>
-            <Option>black</Option>
-            <Option>red</Option>
-            <Option>blue</Option>
-            <Option>pink</Option>
-            <Option>green</Option>
-          </Select>
-          <Select name="size" onChange={handleFilters}>
-            <Option disabled>Size</Option>
-            <Option>XS</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
-          </Select>
-        </Filter>
+          <select
+            className="px-4 py-2 border border-teal-700 rounded-md"
+            name="size"
+            defaultValue={""}
+            onChange={handleFilters}
+          >
+            <option value="" disabled>
+              Size
+            </option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </Filter> */}
         <Filter>
           <FilterText>Sort Products</FilterText>
-          <Select onChange={(e) => setSort(e.target.value)}>
-            <Option value="newest">Newest</Option>
-            <Option value="asc">Price (asc)</Option>
-            <Option value="desc">Price (desc)</Option>
-          </Select>
+          <select
+            className="px-4 py-2 border border-teal-700 rounded-md"
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="">Newest</option>
+            <option value="asc">Price (asc)</option>
+            <option value="desc">Price (desc)</option>
+            <option value="le">Hoa</option>
+          </select>
         </Filter>
       </FilterContainer>
-      <Products cate={cate} filters={filters} sort={sort}/>
-      <Newsletter />
-      <Footer />
+
+      <Products sort={sort} />
     </Container>
   );
 };

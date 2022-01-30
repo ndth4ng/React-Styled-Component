@@ -1,71 +1,34 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import styled from "styled-components";
-import { publicRequest } from "../requestMethods";
-
 import SingleProduct from "./SingleProduct";
+import { useGetProductsQuery } from "../services/products";
+import SkeletonImages from "./Skeleton/SkeletonImages";
+import { useState } from "react";
+import { Pagination } from "antd";
 
-const Container = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
+const NewProducts = ({ sort }) => {
+  const [page, setPage] = useState(1);
 
-const Products = ({ cate, filters, sort }) => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const { data, error, isLoading } = useGetProductsQuery({ page, sort });
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await publicRequest.get(
-          cate ? `/products?category=${cate}` : "/products"
-        );
-        setProducts(res.data.products);
-      } catch (error) {}
-    };
-    getProducts();
-  }, [cate]);
-
-  useEffect(() => {
-    cate &&
-      setFilteredProducts(
-        products.filter((item) =>
-          Object.entries(filters).every(([key, value]) =>
-            item[key].includes(value)
-          )
-        )
-      );
-  }, [products, cate, filters]);
-
-  useEffect(() => {
-    if (sort === "newest") {
-      setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.createdAt - b.createdAt)
-      );
-    } else if (sort === "asc") {
-      setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.price - b.price)
-      );
-    } else {
-      setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => b.price - a.price)
-      );
-    }
-  }, [sort]);
+  !isLoading && console.log(data);
 
   return (
-    <Container>
-      {cate
-        ? filteredProducts.map((item) => (
-            <SingleProduct key={item._id} item={item} />
-          ))
-        : products
-            .slice(0, 8)
-            .map((item) => <SingleProduct key={item._id} item={item} />)}
-    </Container>
+    <div className="py-5">
+      <div className="grid grid-cols-2 gap-4 px-2 md:px-5 md:grid-cols-4">
+        {isLoading ? (
+          <SkeletonImages count={4} />
+        ) : (
+          data.data.map((item) => <SingleProduct key={item._id} item={item} />)
+        )}
+      </div>
+      <Pagination
+        className="!mt-5 text-center"
+        defaultCurrent={page}
+        onChange={(p) => setPage(p)}
+        defaultPageSize={4}
+        total={data?.info.count}
+      />
+    </div>
   );
 };
 
-export default Products;
+export default NewProducts;

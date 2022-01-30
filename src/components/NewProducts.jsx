@@ -1,32 +1,27 @@
-import { useEffect } from "react";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-
 import SingleProduct from "./SingleProduct";
-import { fetchProducts } from "../redux/productRedux";
-
-const Container = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
+import { useGetProductsQuery } from "../services/products";
+import SkeletonImages from "./Skeleton/SkeletonImages";
 
 const NewProducts = () => {
-  const products = useSelector((state) => state.product.products);
+  const { data, error, isLoading } = useGetProductsQuery();
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+  !isLoading && console.log(data);
 
   return (
-    <Container>
-      {products.slice(0, 8).map((item) => (
-        <SingleProduct key={item._id} item={item} />
-      ))}
-    </Container>
+    <div className="py-5">
+      <h1 className="py-2 text-2xl tracking-widest text-center text-white uppercase bg-teal-700 md:text-3xl text-semibold">
+        New Products
+      </h1>
+      <div className="grid grid-cols-2 gap-4 px-2 md:px-5 md:grid-rows-2 md:grid-cols-4">
+        {isLoading ? (
+          <SkeletonImages count={8} />
+        ) : (
+          data.data
+            .slice(0, 8)
+            .map((item) => <SingleProduct key={item._id} item={item} />)
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -13,6 +13,7 @@ const Layout = () => {
       <Outlet />
 
       <Footer />
+      {/* Mobile */}
       <div className="fixed bottom-0 z-10 w-full h-16 bg-teal-700 md:hidden">
         <BottomNav />
       </div>

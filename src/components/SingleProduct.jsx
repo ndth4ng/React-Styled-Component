@@ -1,107 +1,28 @@
-import { FavoriteBorder, SearchOutlined } from "@material-ui/icons";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import { useHistory } from "react-router";
 
 import styled from "styled-components";
-import { addProductToWishList } from "../redux/apiCalls";
-
-const Info = styled.div`
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.5s ease;
-`;
-
-const Container = styled.div`
-  flex: 1;
-  margin: 10px;
-  min-width: 280px;
-  height: 350px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f5fbfd;
-  position: relative;
-
-  &:hover ${Info} {
-    opacity: 1;
-  }
-`;
 
 const Circle = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 50%;
+  height: 50%;
   border-radius: 50%;
   background-color: white;
   position: absolute;
-`;
-
-const Image = styled.img`
-  height: 75%;
-  z-index: 2;
-`;
-
-const Icon = styled.div`
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px;
-  transition: all 0.5s ease;
-
-  &:hover {
-    background-color: #e9f5f5;
-    transform: scale(1.1);
-  }
 `;
 
 const SingleProduct = ({ item }) => {
-  const dispatch = useDispatch();
-  // const history = useHistory();
-
-  const currentUser = useSelector((state) => state.user.currentUser);
-
-  let userId = "";
-
-  const handleClick = () => {
-    if (currentUser) {
-      userId = currentUser._id;
-      addProductToWishList(dispatch, userId, item);
-    } else {
-      // history.push("/login");
-    }
-  };
   return (
-    <Container>
-      <Circle />
-      <Image src={item.img} />
-      <Info>
-        {/* <Icon>
-          <ShoppingCartOutlined />
-        </Icon> */}
-        <Icon>
-          <Link to={`/product/${item._id}`}>
-            <SearchOutlined />
-          </Link>
-        </Icon>
-        <Icon onClick={handleClick}>
-          <FavoriteBorder />
-        </Icon>
-      </Info>
-    </Container>
+    <Link
+      to={`/product/${item._id}`}
+      className="relative flex-1 bg-teal-700 aspect-square"
+    >
+      <div className="flex items-center justify-center w-full h-full cursor-pointer ">
+        <Circle />
+        <div className="z-10 p-5 transition-all duration-500 ease hover:scale-110">
+          <img src={item.img} alt="123" />
+        </div>
+      </div>
+    </Link>
   );
 };
 
