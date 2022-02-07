@@ -14,7 +14,6 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     products: [],
-    status: null,
   },
   reducers: {
     // Get all products

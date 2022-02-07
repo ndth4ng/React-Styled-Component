@@ -1,11 +1,9 @@
 import SingleProduct from "./SingleProduct";
-import { useGetProductsQuery } from "../services/products";
+import { useGetProductsQuery } from "../services/product";
 import SkeletonImages from "./Skeleton/SkeletonImages";
 
 const NewProducts = () => {
   const { data, error, isLoading } = useGetProductsQuery();
-
-  !isLoading && console.log(data);
 
   return (
     <div className="py-5">

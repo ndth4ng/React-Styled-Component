@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { usersApi } from "../services/user";
+import Cookies from "js-cookie";
 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
@@ -15,52 +17,37 @@ const usertSlice = createSlice({
   initialState: {
     currentUser: null,
     isAuthenticated: false,
-    status: null,
-    errorMessage: null,
   },
   reducers: {
-    loginStart: (state) => {
-      state.isFetching = true;
-    },
-    loginSuccess: (state, action) => {
-      state.currentUser = action.payload;
-      state.isFetching = false;
-    },
-    loginFailure: (state) => {
-      state.isFetching = false;
-      state.error = true;
-    },
-
-    logoutSuccess: (state) => {
+    logout: (state) => {
       state.currentUser = null;
       state.isAuthenticated = false;
       state.status = null;
-      localStorage.removeItem("ecommerce-app");
+      Cookies.remove("ecommerce");
     },
   },
-  extraReducers: {
-    [registerUser.pending]: (state) => {
-      state.status = "loading";
-    },
-    [registerUser.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.currentUser = action.payload.data;
-      state.isAuthenticated = true;
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      usersApi.endpoints.login.matchFulfilled,
+      (state, action) => {
+        // Lưu thông tin user vào state
+        state.currentUser = action.payload.data;
+        state.isAuthenticated = true;
 
-      localStorage.setItem("ecommerce-app", action.payload.accessToken);
-    },
-    [registerUser.rejected]: (state) => {
-      state.status = "error";
-    },
+        Cookies.set("ecommerce", action.payload.accessToken, { expires: 7 });
+      }
+    );
+
+    builder.addMatcher(
+      usersApi.endpoints.getAuth.matchFulfilled,
+      (state, action) => {
+        state.currentUser = action.payload.user;
+        state.isAuthenticated = true;
+      }
+    );
   },
 });
 
-export const {
-  loginStart,
-  loginSuccess,
-  loginFailure,
-  logoutSuccess,
-  setTokenSuccess,
-} = usertSlice.actions;
+export const { logout } = usertSlice.actions;
 
 export default usertSlice.reducer;

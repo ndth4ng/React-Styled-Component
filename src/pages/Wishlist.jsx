@@ -67,13 +67,10 @@ const Wishlist = () => {
 
   return (
     <Container>
-      <Announcement />
-      <Navbar />
       <Wrapper>
         <Title>MY WISHLIST</Title>
         <TableWrapper></TableWrapper>
       </Wrapper>
-      <Footer />
     </Container>
   );
 };

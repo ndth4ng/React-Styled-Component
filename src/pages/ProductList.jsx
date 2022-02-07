@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router";
 import { useState } from "react";
-import { useGetProductsQuery } from "../services/products";
+import { useGetProductsQuery } from "../services/product";
 
 import { Pagination } from "antd";
 
@@ -99,7 +99,6 @@ const ProductList = () => {
             <option value="">Newest</option>
             <option value="asc">Price (asc)</option>
             <option value="desc">Price (desc)</option>
-            <option value="le">Hoa</option>
           </select>
         </Filter>
       </FilterContainer>

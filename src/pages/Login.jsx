@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import styled from "styled-components";
-import { login } from "../redux/apiCalls";
-import { mobile } from "../responsive";
+import { useLoginMutation } from "../services/user";
 
 const Container = styled.div`
   width: 100vw;
@@ -19,55 +18,6 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Wrapper = styled.div`
-  width: 25%;
-  padding: 20px;
-  background-color: white;
-
-  ${mobile({
-    width: "75%",
-  })}
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 10px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 10px;
-
-  &:disabled {
-    color: green;
-    cursor: not-allowed;
-  }
-`;
-
-const LinkTo = styled.a`
-  margin: 5px 0;
-  font-size: 16px;
-  text-decoration: underline;
-  color: inherit;
-  cursor: pointer;
-`;
-
 const Error = styled.span`
   color: red;
 `;
@@ -75,34 +25,36 @@ const Error = styled.span`
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const { isAuthenticated, isFetching, error } = useSelector(
-    (state) => state.user
-  );
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
+  const [login, { isLoading, error }] = useLoginMutation();
 
   const location = useLocation();
-  const navigate = useNavigate();
+  const path = location.state;
+  console.log(path);
 
-  const path = location.state?.path;
+  const navigate = useNavigate();
 
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { email, password });
+    login({ email, password });
   };
 
   useEffect(() => {
     if (isAuthenticated) {
       if (path) {
-        navigate(path);
+        navigate(`/${path}`);
       } else {
         navigate("/");
       }
     }
   }, [isAuthenticated, path, navigate]);
+
   return (
     <Container>
       <div className="w-[90%] md:w-1/3 xl:w-1/4  bg-white p-4">
-        <h1 className="text-xl mb-4">SIGN IN</h1>
+        <h1 className="mb-4 text-xl">SIGN IN</h1>
         <form className="flex flex-col space-y-3">
           <input
             className="input"
@@ -113,19 +65,20 @@ const Login = () => {
             className="input"
             placeholder="password"
             type="password"
+            autoComplete="on"
             onChange={(e) => setPassword(e.target.value)}
           />
 
           <button
-            className="bg-teal-700 text-white w-2/4 py-3 px-2 mx-auto"
+            className="w-2/4 px-2 py-3 mx-auto text-white bg-teal-700"
             onClick={handleClick}
-            disabled={isFetching}
+            disabled={isLoading}
           >
             LOGIN
           </button>
           {error && <Error>Something went wrong...</Error>}
           <span className="underline">DO NOT REMEMBER YOUR PASSWORD?</span>
-          <Link to="/register" className="text-inherit underline">
+          <Link to="/register" className="underline text-inherit">
             CREATE NEW ACCOUNT
           </Link>
         </form>

@@ -1,5 +1,5 @@
 import SingleProduct from "./SingleProduct";
-import { useGetProductsQuery } from "../services/products";
+import { useGetProductsQuery } from "../services/product";
 import SkeletonImages from "./Skeleton/SkeletonImages";
 import { useState } from "react";
 import { Pagination } from "antd";
@@ -7,7 +7,7 @@ import { Pagination } from "antd";
 const NewProducts = ({ sort }) => {
   const [page, setPage] = useState(1);
 
-  const { data, error, isLoading } = useGetProductsQuery({ page, sort });
+  const { data, error, isLoading } = useGetProductsQuery(page, sort);
 
   !isLoading && console.log(data);
 

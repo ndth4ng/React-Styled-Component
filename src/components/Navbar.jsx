@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
 import styled from "styled-components";
 import { FavoriteBorderOutlined, Search } from "@material-ui/icons";
 
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-
-import { Drawer } from "antd";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import { Badge } from "antd";
@@ -12,29 +9,10 @@ import { mobile } from "../responsive";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchData, logout } from "../redux/apiCalls";
+import { logout } from "../redux/userRedux";
 import { useState } from "react";
 import Sidebar from "./Mobile/Sidebar";
-
-const Container = styled.div`
-  height: 60px;
-  ${mobile({
-    height: "50px",
-  })}
-`;
-
-const Wrapper = styled.div`
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Left = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-`;
+import { useGetAuthQuery } from "../services/user";
 
 const SearchContainer = styled.div`
   border: 0.5px solid lightgray;
@@ -68,36 +46,27 @@ const Navbar = () => {
   const [visible, setVisible] = useState(false); // Sidebar
 
   //selector
-  const cart = useSelector((state) => state.cart);
   const { currentUser, isAuthenticated } = useSelector((state) => state.user);
-  // const wishlist = useSelector((state) => state.wishlist.products);
+
+  //hook
+  const { isLoading } = useGetAuthQuery();
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchData(dispatch, currentUser._id);
-    }
-  }, [isAuthenticated, dispatch, currentUser]);
-
   const handleLogout = () => {
-    logout(dispatch);
+    dispatch(logout());
   };
 
   return (
     <div className="h-[60px] bg-gray-200">
       <div className="flex items-center justify-center h-full px-5 py-2">
         {/* Left */}
-        <div className="flex items-center flex-1 md:invisible">
-          {/* <Language>EN</Language>
-          <SearchContainer>
-            <Input placeholder="Search" />
-            <Search
-              style={{ color: "gray", fontSize: 16, cursor: "pointer" }}
-            />
-          </SearchContainer> */}
+        <div className="flex-1 hidden md:flex items-center space-x-2">
+          <input className="py-1 px-2" placeholder="Search" />
+          <Search style={{ color: "gray", fontSize: 16, cursor: "pointer" }} />
+        </div>
 
-          {/* Mobile */}
+        {/* Mobile */}
+        <div className="flex items-center flex-1 md:hidden">
           <MenuIcon className="!text-3xl" onClick={() => setVisible(true)} />
           <Sidebar visible={visible} onClose={setVisible} />
         </div>
@@ -110,61 +79,70 @@ const Navbar = () => {
         </div>
 
         {/* Right */}
+
         <div className="flex items-center justify-end flex-1">
-          <Link
-            className="hidden"
-            style={{ textDecoration: "none", color: "inherit" }}
-            to="/register"
-          >
-            <MenuItem style={currentUser && { display: "none" }}>
-              REGISTER
-            </MenuItem>
-          </Link>
-          <Link
-            to="/login"
-            className="hidden"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <MenuItem style={currentUser && { display: "none" }}>
-              SIGN IN
-            </MenuItem>
-          </Link>
-          <MenuItem
-            style={currentUser ? { display: "block" } : { display: "none" }}
-            onClick={() => handleLogout()}
-          >
-            LOG OUT
-          </MenuItem>
-          {isAuthenticated && (
-            <MenuItem>
-              <Link
-                className="hidden"
-                to="/profile"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <UserImg
-                  src="https://firebasestorage.googleapis.com/v0/b/shop-2edcf.appspot.com/o/163664544026275519312_2575922042638572_6888852351344443392_n.jpg?alt=media&token=26bc9b04-1554-4fef-9c7b-9ea30c2d3775"
-                  alt=""
-                />
-              </Link>
-            </MenuItem>
+          {isLoading ? (
+            <span>Loading...</span>
+          ) : (
+            <>
+              {!isAuthenticated && (
+                <Link
+                  className="hidden md:block"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  to="/register"
+                >
+                  <MenuItem>REGISTER</MenuItem>
+                </Link>
+              )}
+
+              {!isAuthenticated && (
+                <Link
+                  to="/login"
+                  className="hidden md:block"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <MenuItem>SIGN IN</MenuItem>
+                </Link>
+              )}
+
+              {isAuthenticated && (
+                <MenuItem onClick={() => handleLogout()}>LOG OUT</MenuItem>
+              )}
+
+              {isAuthenticated && (
+                <Link
+                  className="hidden md:block"
+                  to="/profile"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <MenuItem>
+                    <UserImg
+                      src={currentUser.avatar}
+                      alt={currentUser.firstName}
+                    />
+                  </MenuItem>
+                </Link>
+              )}
+
+              {isAuthenticated && (
+                <Link to="/wishlist" style={{ color: "inherit" }}>
+                  <MenuItem>
+                    <Badge count={0}>
+                      <FavoriteBorderOutlined />
+                    </Badge>
+                  </MenuItem>
+                </Link>
+              )}
+            </>
           )}
-          {currentUser && (
+
+          <Link to="/cart" style={{ color: "inherit" }}>
             <MenuItem>
-              <Link to="/wishlist" style={{ color: "inherit" }}>
-                <Badge badgeContent={0} color="secondary">
-                  <FavoriteBorderOutlined />
-                </Badge>
-              </Link>
-            </MenuItem>
-          )}
-          <MenuItem>
-            <Link to="/cart" style={{ color: "inherit" }}>
               <Badge count={5}>
                 <ShoppingCartOutlinedIcon className="!text-2xl" />
               </Badge>
-            </Link>
-          </MenuItem>
+            </MenuItem>
+          </Link>
         </div>
       </div>
     </div>

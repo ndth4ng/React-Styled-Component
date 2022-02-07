@@ -24,11 +24,37 @@ const App = () => {
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="cart" element={<Cart />} />
+
           <Route path="product">
             <Route index element={<ProductList />} />
-            <Route path=":id" element={<Product />} />
+            <Route path=":productId" element={<Product />} />
           </Route>
+
+          {/* Protected Routes */}
+          <Route
+            path="wishlist"
+            element={
+              <ProtectedRoute redirectTo="wishlist">
+                <Wishlist />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="cart"
+            element={
+              <ProtectedRoute redirectTo="cart">
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute redirectTo="profile">
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { cartApi } from "../services/cart";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -34,24 +35,7 @@ const cartSlice = createSlice({
 
       state.total = totalPrice;
     },
-    addProduct: (state, action) => {
-      state.quantity += action.payload.quantity;
 
-      const existItemIndex = state.products.findIndex(
-        (item) =>
-          item._id === action.payload._id &&
-          item.size === action.payload.size &&
-          action.payload.color
-      );
-
-      if (existItemIndex !== -1) {
-        state.products[existItemIndex].quantity += action.payload.quantity;
-      } else {
-        state.products.push(action.payload);
-      }
-
-      state.total += action.payload.price * action.payload.quantity;
-    },
     deleteProduct: (state, action) => {
       const existItemIndex = state.products.findIndex(
         (item) =>
@@ -98,6 +82,26 @@ const cartSlice = createSlice({
         state.total -= state.products[existItemIndex].price;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      cartApi.endpoints.addProductToCart.matchFulfilled,
+      (state, action) => {
+        state.products = action.payload.cart.products;
+
+        // Tính tổng số lượng sp
+        const totalQuantity = state.products.reduce((total, item) => {
+          return total + item.quantity;
+        }, 0);
+        state.quantity = totalQuantity;
+
+        // Tính tổng giá tiền giỏ hàng
+        const totalPrice = state.products.reduce((total, item) => {
+          return total + item.quantity * item.product.price;
+        }, 0);
+        state.total = totalPrice;
+      }
+    );
   },
 });
 

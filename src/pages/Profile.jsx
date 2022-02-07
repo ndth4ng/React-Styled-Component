@@ -1,9 +1,5 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-
 import { mobile } from "../responsive";
 
 const Container = styled.div`
@@ -276,8 +272,6 @@ const Profile = () => {
   const handleChange = () => {};
   return (
     <>
-      <Announcement />
-      <Navbar />
       <Container>
         <Wrapper>
           <Left>
@@ -361,7 +355,6 @@ const Profile = () => {
           </Right>
         </Wrapper>
       </Container>
-      <Footer />
     </>
   );
 };

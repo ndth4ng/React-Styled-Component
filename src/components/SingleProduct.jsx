@@ -19,7 +19,7 @@ const SingleProduct = ({ item }) => {
       <div className="flex items-center justify-center w-full h-full cursor-pointer ">
         <Circle />
         <div className="z-10 p-5 transition-all duration-500 ease hover:scale-110">
-          <img src={item.img} alt="123" />
+          <img src={item.images} alt={item.title} />
         </div>
       </div>
     </Link>
