@@ -23,6 +23,10 @@ export const cartApi = createApi({
 
   // Các endpoints (lệnh gọi request)
   endpoints: (builder) => ({
+    getCart: builder.query({
+      query: (userId) => `/find/${userId}`,
+    }),
+
     addProductToCart: builder.mutation({
       query: (product) => ({
         url: `/`,
@@ -30,7 +34,28 @@ export const cartApi = createApi({
         body: product,
       }),
     }),
+
+    removeProductFromCart: builder.mutation({
+      query: (product) => ({
+        url: `/cart-item`,
+        method: "DELETE",
+        body: product,
+      }),
+    }),
+
+    updateProductInCart: builder.mutation({
+      query: (productInfo) => ({
+        url: `/cart-item`, // increase & decrease
+        method: "PUT",
+        body: productInfo,
+      }),
+    }),
   }),
 });
 
-export const { useAddProductToCartMutation } = cartApi;
+export const {
+  useGetCartQuery,
+  useAddProductToCartMutation,
+  useRemoveProductFromCartMutation,
+  useUpdateProductInCartMutation,
+} = cartApi;

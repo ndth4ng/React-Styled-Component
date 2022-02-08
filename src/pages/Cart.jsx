@@ -2,10 +2,6 @@ import { Add, Remove } from "@material-ui/icons";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
@@ -16,86 +12,13 @@ import {
   deleteProduct,
   increaseQuantity,
 } from "../redux/cartRedux";
+import {
+  useRemoveProductFromCartMutation,
+  useUpdateProductInCartMutation,
+} from "../services/cart";
 
 const KEY =
   "pk_test_51JnbfsLs9270OQw08yXH6XcYEfNZR3BnYZCcvHmmZAUTUFrhFN6hD0Ktfikt1KuePGnpCT9g6tbjQ1AFYfzXL5lz00aVdftlvu";
-
-const Container = styled.div``;
-
-const Wrapper = styled.div`
-  padding: 20px;
-
-  ${mobile({
-    padding: "10px",
-  })}
-`;
-
-const Title = styled.h1`
-  font-weight: 300;
-  text-align: center;
-`;
-
-const Top = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-`;
-
-const TopButton = styled.button`
-  padding: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  border: ${(props) => props.type === "filled" && "none"};
-  background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
-  color: ${(props) => props.type === "filled" && "white"};
-
-  ${mobile({
-    display: "none",
-  })}
-`;
-
-const TopTexts = styled.div`
-  ${mobile({
-    display: "none",
-  })}
-`;
-
-const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
-  margin: 0 10px;
-`;
-
-const Bottom = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  ${mobile({
-    flexDirection: "column",
-  })}
-`;
-
-const Info = styled.div`
-  flex: 3;
-  padding: 0px 20px;
-
-  ${mobile({
-    padding: 0,
-  })}
-`;
-
-const Product = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  position: relative;
-
-  ${mobile({
-    flexDirection: "column",
-  })}
-`;
 
 const ClearProductIcon = styled(ClearIcon)`
   cursor: pointer;
@@ -105,95 +28,6 @@ const ClearProductIcon = styled(ClearIcon)`
   top: 20px;
 `;
 
-const ProductDetail = styled.div`
-  flex: 2;
-  display: flex;
-`;
-
-const Image = styled.img`
-  width: 200px;
-`;
-
-const Details = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-`;
-
-const ProductName = styled.span``;
-
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-`;
-
-const ProductSize = styled.span``;
-
-const PriceDetail = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ProductAmountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const ProductAmount = styled.span`
-  font-size: 24px;
-  margin: 5px;
-
-  ${mobile({
-    margin: "5px 15px",
-  })}
-`;
-
-const ProductPrice = styled.span`
-  font-size: 30px;
-  font-weight: 200;
-
-  ${mobile({
-    marginBottom: "20px",
-  })}
-`;
-
-const Hr = styled.hr`
-  background-color: #eee;
-  border: none;
-  height: 1px;
-`;
-
-const Summary = styled.div`
-  flex: 1;
-  border: 0.5px solid lightgray;
-  border-radius: 10px;
-  padding: 20px;
-  height: 50vh;
-`;
-
-const SummaryTitle = styled.h1`
-  font-weight: 200;
-`;
-
-const SummaryItem = styled.div`
-  margin: 30px 0px;
-  display: flex;
-  justify-content: space-between;
-  font-weight: ${(props) => props.type === "total" && "500"};
-  font-size: ${(props) => props.type === "total" && "24px"};
-`;
-
-const SummaryItemText = styled.span``;
-
-const SummaryItemPrice = styled.span``;
-
 const SummaryButton = styled.button`
   width: 100%;
   padding: 10px;
@@ -202,12 +36,16 @@ const SummaryButton = styled.button`
   font-weight: 600;
 `;
 
-const Error = styled.span``;
-
 const Cart = () => {
+  // selector
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist);
-  const currentUser = useSelector((state) => state.user.currentUser);
+
+  // hook
+  const [removeProductFromCart, { isSuccess: isRemoveSuccess }] =
+    useRemoveProductFromCartMutation();
+  const [updateProductInCart, { isSuccess: isUpdateSuccess }] =
+    useUpdateProductInCartMutation();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -231,124 +69,162 @@ const Cart = () => {
     stripeToken && makeRequest();
   }, [stripeToken, cart.total, cart, navigate]);
 
-  const handleClear = (productId, color, size) => {
-    dispatch(deleteProduct({ productId, color, size }));
+  const handleRemove = (productId, color, size) => {
+    removeProductFromCart({ productId, color, size });
   };
 
   const handleIncrease = (productId, color, size) => {
-    dispatch(increaseQuantity({ productId, color, size }));
+    updateProductInCart({ productId, color, size, action: "increase" });
   };
 
   const handleDecrease = (productId, color, size) => {
-    dispatch(decreaseQuantity({ productId, color, size }));
+    updateProductInCart({ productId, color, size, action: "decrease" });
   };
 
   return (
-    <Container>
-      <Wrapper>
-        <Title>MY CART</Title>
-        <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+    <div className="flex justify-center py-5 md:px-10">
+      <div className="w-full px-2">
+        {/* Top */}
+        <h1 className="text-2xl text-center">MY CART</h1>
+        <div className="flex items-center justify-between p-5 border border-gray-200 rounded-lg">
+          <button className="p-2 text-white bg-teal-700 border">
+            CONTINUE SHOPPING
+          </button>
           {cart.quantity === 0 && (
             <span>YOU DON'T HAVE ANY ITEM IN YOUR CART</span>
           )}
-          <TopTexts>
-            <TopText>Shopping Cart ({cart.quantity})</TopText>
+          <div className="flex flex-col items-center space-x-5 md:flex-row">
+            <span className="underline">Shopping Cart ({cart.quantity})</span>
+
             <Link
               to="/wishlist"
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <TopText>Your wishlist ({wishlist.products.length})</TopText>
+              <span className="underline">
+                Your wishlist ({wishlist.products.length})
+              </span>
             </Link>
-          </TopTexts>
+          </div>
           {cart.quantity !== 0 && (
-            <TopButton type="filled">CHECKOUT NOW</TopButton>
+            <button className="hidden md:block">CHECKOUT NOW</button>
           )}
-        </Top>
-        <Bottom>
-          <Info>
-            {cart.products.map((product) => (
-              <Product key={`${product._id}${product.color}${product.size}`}>
+        </div>
+
+        <div className="flex flex-col justify-between py-5 xl:flex-row md:space-x-5">
+          {/* Cart Items */}
+          <div className="flex-auto space-y-4 max-h-[600px] overflow-y-scroll">
+            {cart.products.map((cartItem) => (
+              <div
+                className="relative flex flex-col items-center pb-5 border-b md:flex-row md:p-0 last:border-0"
+                key={`${cartItem.product._id}${cartItem.color}${cartItem.size}`}
+              >
                 <ClearProductIcon
                   onClick={() =>
-                    handleClear(product._id, product.color, product.size)
+                    handleRemove(
+                      cartItem.product._id,
+                      cartItem.color,
+                      cartItem.size
+                    )
                   }
                 />
-                <ProductDetail>
-                  <Image src={product.img} />
-                  <Details>
-                    <ProductName>
+
+                <img
+                  className="w-[250px]"
+                  src={cartItem.product.images}
+                  alt={cartItem.product.title}
+                />
+                <div className="flex flex-col items-center justify-between flex-auto space-y-5 md:flex-row md:px-5 md:space-y-0">
+                  {/* Product Detail */}
+                  <div className="flex flex-col items-center space-y-2 md:items-start md:space-y-5">
+                    <span className="text-lg">
                       <b>Product: </b>
-                      {product.title}
-                    </ProductName>
-                    <ProductColor color={product.color} />
-                    <ProductSize>
+                      {cartItem.product.title}
+                    </span>
+                    <span
+                      style={{ backgroundColor: cartItem.color }}
+                      className="w-8 h-8 text-lg rounded-full"
+                    ></span>
+                    <span className="text-lg">
                       <b>Size: </b>
-                      {product.size}
-                    </ProductSize>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductAmountContainer>
-                    <Remove
-                      onClick={() =>
-                        handleDecrease(product._id, product.color, product.size)
-                      }
-                    />
-                    <ProductAmount>{product.quantity}</ProductAmount>
-                    <Add
-                      onClick={() =>
-                        handleIncrease(product._id, product.color, product.size)
-                      }
-                    />
-                  </ProductAmountContainer>
-                  <ProductPrice>
-                    $ {product.price * product.quantity}
-                  </ProductPrice>
-                </PriceDetail>
-              </Product>
+                      {cartItem.size}
+                    </span>
+                  </div>
+
+                  {/* Price */}
+                  <div className="flex flex-col items-center space-y-2 md:space-y-5">
+                    <div className="flex items-center justify-center space-x-5">
+                      <Remove
+                        className="cursor-pointer"
+                        onClick={() =>
+                          handleDecrease(
+                            cartItem.product._id,
+                            cartItem.color,
+                            cartItem.size
+                          )
+                        }
+                      />
+                      <span className="px-2 text-lg border rounded-lg">
+                        {cartItem.quantity}
+                      </span>
+                      <Add
+                        className="cursor-pointer"
+                        onClick={() =>
+                          handleIncrease(
+                            cartItem.product._id,
+                            cartItem.color,
+                            cartItem.size
+                          )
+                        }
+                      />
+                    </div>
+                    <span className="text-xl font-semibold">
+                      $ {cartItem.product.price * cartItem.quantity}
+                    </span>
+                  </div>
+                </div>
+              </div>
             ))}
-            <Hr />
-          </Info>
+          </div>
+
+          {/* Summary */}
           {cart.quantity !== 0 && (
-            <Summary>
-              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-              <SummaryItem>
-                <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Shipping Discount</SummaryItemText>
-                <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem type="total">
-                <SummaryItemText>Total</SummaryItemText>
-                <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-              </SummaryItem>
-              {currentUser ? (
-                <StripeCheckout
-                  name="DEV Shop"
-                  billingAddress
-                  shippingAddress
-                  description={`Your total is ${cart.total}`}
-                  amount={cart.total * 100}
-                  token={onToken}
-                  stripeKey={KEY}
-                >
-                  <SummaryButton>CHECKOUT NOW</SummaryButton>
-                </StripeCheckout>
-              ) : (
-                <Error>Please sign in to check out!</Error>
-              )}
-            </Summary>
+            <div className="flex-1 border rounded-lg p-4 h-[400px]">
+              <p className="text-lg font-semibold text-center">ORDER SUMMARY</p>
+              <div className="flex justify-between text-lg my-7">
+                <span>Subtotal</span>
+                <span>$ {cart.total}</span>
+              </div>
+              <div className="flex justify-between text-lg my-7">
+                <span>Shipping</span>
+                <span>$ 5.90</span>
+              </div>
+              <div className="flex justify-between text-lg my-7">
+                <span>Shipping Discount</span>
+                <span>$ -5.90</span>
+              </div>
+              <hr />
+              <div className="flex justify-between text-lg my-7">
+                <span className="font-semibold">Total</span>
+                <span className="font-semibold">$ {cart.total}</span>
+              </div>
+
+              {/* Checkout Button */}
+              <StripeCheckout
+                name="DEV Shop"
+                billingAddress
+                shippingAddress
+                description={`Your total is ${cart.total}`}
+                amount={cart.total * 100}
+                token={onToken}
+                stripeKey={KEY}
+              >
+                <SummaryButton>CHECKOUT NOW</SummaryButton>
+              </StripeCheckout>
+            </div>
           )}
-        </Bottom>
-      </Wrapper>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 

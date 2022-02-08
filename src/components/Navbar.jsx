@@ -13,17 +13,7 @@ import { logout } from "../redux/userRedux";
 import { useState } from "react";
 import Sidebar from "./Mobile/Sidebar";
 import { useGetAuthQuery } from "../services/user";
-
-const SearchContainer = styled.div`
-  border: 0.5px solid lightgray;
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 5px;
-  ${mobile({
-    marginLeft: "0px",
-  })}
-`;
+import { useGetCartQuery } from "../services/cart";
 
 const MenuItem = styled.div`
   font-size: 14px;
@@ -47,9 +37,16 @@ const Navbar = () => {
 
   //selector
   const { currentUser, isAuthenticated } = useSelector((state) => state.user);
+  const { quantity } = useSelector((state) => state.cart);
 
   //hook
-  const { isLoading } = useGetAuthQuery();
+  const { data: userData, isLoading, isSuccess } = useGetAuthQuery();
+
+  const { data: cartData } = useGetCartQuery(userData?.user._id, {
+    skip: !isSuccess, // wait the first hook response
+  });
+
+  console.log(cartData);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -138,7 +135,7 @@ const Navbar = () => {
 
           <Link to="/cart" style={{ color: "inherit" }}>
             <MenuItem>
-              <Badge count={5}>
+              <Badge count={quantity}>
                 <ShoppingCartOutlinedIcon className="!text-2xl" />
               </Badge>
             </MenuItem>

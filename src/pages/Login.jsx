@@ -32,7 +32,7 @@ const Login = () => {
 
   const location = useLocation();
   const path = location.state;
-  console.log(path);
+  // console.log(path);
 
   const navigate = useNavigate();
 
