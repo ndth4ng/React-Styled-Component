@@ -1,60 +1,6 @@
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
-import styled from "styled-components";
 import { useState } from "react";
 import { sliderItems } from "../data";
-import { mobile } from "../responsive";
-import pant from "../assets/pant.png";
-
-const Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  transition: all 1.5s ease;
-  transform: translateX(${(props) => props.slideIndex * -100}vw);
-`;
-
-const Slide = styled.div`
-  width: 100vw;
-  height: 100%;
-  display: flex;
-  padding: 0 20px;
-  align-items: center;
-  background-color: #${(props) => props.bg};
-
-  ${mobile({
-    flexDirection: "column",
-  })};
-`;
-
-const Image = styled.img`
-  height: 80%;
-  padding: 50px;
-
-  ${mobile({
-    padding: 0,
-  })}
-`;
-
-const Title = styled.h1`
-  font-size: 50px;
-`;
-
-const Desc = styled.p`
-  margin: 50px 50px 50px 0;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 3px;
-
-  ${mobile({
-    margin: 0,
-  })}
-`;
-
-const Button = styled.button`
-  padding: 10px;
-  font-size: 20px;
-  background-color: transparent;
-  cursor: pointer;
-`;
+import { ArrowLeftIcon, ArrowRightIcon, images } from "../constants";
 
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -69,25 +15,35 @@ const Slider = () => {
   return (
     <div className="relative h-[80vh] md:h-[calc(100%-90px)] flex overflow-hidden">
       <div className="slider-arrow-left" onClick={() => handleClick("left")}>
-        <ArrowLeftOutlined />
+        <ArrowLeftIcon />
       </div>
-      <Wrapper slideIndex={slideIndex}>
+      <div
+        className={`h-full flex transition-all duration-1000 ease-in-out translate-x-[${
+          slideIndex * -100
+        }vw]`}
+      >
         {sliderItems.map((item) => (
-          <Slide bg={item.bg} key={item.id}>
+          <div
+            style={{ backgroundColor: item.color }}
+            className="w-[100vw] flex-col md:flex-row h-full flex px-5 items-center"
+            key={item.id}
+          >
             <div className="flex items-center justify-center flex-1 h-1/3 md:block">
-              <Image src={pant} alt="123" />
+              <img className="h-[80%] md:p-10" src={images.momo} alt="123" />
             </div>
 
-            <div className="flex flex-col flex-1 text-center md:text-left">
-              <Title>{item.title}</Title>
-              <Desc>{item.desc}</Desc>
-              <Button>SHOW NOW</Button>
+            <div className="flex flex-col w-full flex-1 text-center md:text-left md:px-10">
+              <h1 className="text-5xl md:text-6xl">{item.title}</h1>
+              <p className="tracking-wider">{item.desc}</p>
+              <button className="p-3  bg-teal-700 text-white w-1/2 md:w-1/4 mx-auto mt-5 md:ml-0">
+                SHOW NOW
+              </button>
             </div>
-          </Slide>
+          </div>
         ))}
-      </Wrapper>
+      </div>
       <div className="slider-arrow-right" onClick={() => handleClick("right")}>
-        <ArrowRightOutlined />
+        <ArrowRightIcon />
       </div>
     </div>
   );

@@ -1,162 +1,73 @@
 import {
-  Facebook,
-  Instagram,
-  Pinterest,
-  Twitter,
-  Room,
-  Phone,
-  MailOutline,
-} from "@material-ui/icons";
-import styled from "styled-components";
-import { mobile } from "../responsive";
-
-const Container = styled.div`
-  display: flex;
-
-  ${mobile({
-    flexDirection: "column",
-  })}
-`;
-
-const Left = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-`;
-
-const Logo = styled.h1``;
-
-const Desc = styled.p`
-  margin: 25px 0;
-`;
-
-const SocialContainer = styled.div`
-  display: flex;
-`;
-
-const SocialIcon = styled.h1`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  color: white;
-  background-color: #${(props) => props.color};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px;
-`;
-
-const Center = styled.div`
-  flex: 1;
-  padding: 20px;
-
-  ${mobile({
-    display: "none",
-  })}
-`;
-
-const Title = styled.h3`
-  margin-bottom: 30px;
-`;
-
-const List = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const ListItem = styled.li`
-  width: 50%;
-  margin-bottom: 10px;
-`;
-
-const Right = styled.div`
-  flex: 1;
-  padding: 20px;
-
-  ${mobile({
-    backgroundColor: "#fff8f8",
-  })}
-`;
-
-const ContactItem = styled.div`
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-`;
-
-const PaymentContainer = styled.div`
-  display: flex;
-`;
-
-const Payment = styled.img`
-  width: 30px;
-  height: 30px;
-  margin-right: 20px;
-`;
+  images,
+  LocationIcon,
+  PhoneIcon,
+  MailIcon,
+  FacebookIcon,
+  GithubIcon,
+  LinkedinIcon,
+  InstagramIcon,
+} from "../constants";
 
 const Footer = () => {
   return (
     <div className="flex flex-col pb-16 md:p-0 md:flex-row md:m-0">
-      <Left>
-        <Logo>DEV.</Logo>
-        <Desc>
+      <div className="p-5 flex flex-1 flex-col">
+        <h3 className="font-semibold text-lg">DEV.</h3>
+        <span className="my-6">
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form, by injected
           humour, or randomised words which don't look even slightly believable.
-        </Desc>
-        <SocialContainer>
-          <SocialIcon color="3B5999">
-            <Facebook />
-          </SocialIcon>
-          <SocialIcon color="E4405F">
-            <Instagram />
-          </SocialIcon>
-          <SocialIcon color="55ACEE">
-            <Twitter />
-          </SocialIcon>
-          <SocialIcon color="E60023">
-            <Pinterest />
-          </SocialIcon>
-        </SocialContainer>
-      </Left>
-      <Center>
-        <Title>Useful Links</Title>
-        <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Favorite</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
-        </List>
-      </Center>
-      <Right>
-        <Title>Contact</Title>
-        <ContactItem>
-          <Room style={{ marginRight: "10px" }} />
-          538 Doan Van Bo, District 4, Ho Chi Minh City, Vietnam
-        </ContactItem>
-        <ContactItem>
-          <Phone style={{ marginRight: "10px" }} />
-          +84 385 411 491
-        </ContactItem>
-        <ContactItem>
-          <MailOutline style={{ marginRight: "10px" }} />
-          ndth4ng@gmail.com
-        </ContactItem>
-        <PaymentContainer>
-          <Payment src="https://img.mservice.io/momo-payment/icon/images/logo512.png" />
-          <Payment src="https://play-lh.googleusercontent.com/F8cUV5oOLjCTMSvSRymK1154MwKalnvkepN4xGrfWBC_tcXvNTq_sEStiwCYV61lRdI" />
-        </PaymentContainer>
-      </Right>
+        </span>
+        <div className="flex space-x-5">
+          <div className="w-10 h-10 rounded-full flex justify-center items-center text-white bg-[#3B5999]">
+            <FacebookIcon className="!text-2xl" />
+          </div>
+          <div className="w-10 h-10 rounded-full flex justify-center items-center text-white bg-[#E4405F]">
+            <InstagramIcon className="!text-2xl" />
+          </div>
+          <div className="w-10 h-10 rounded-full flex justify-center items-center text-white bg-[#171515]">
+            <GithubIcon className="!text-2xl" />
+          </div>
+          <div className="w-10 h-10 rounded-full flex justify-center items-center text-white bg-[#0077b5]">
+            <LinkedinIcon className="!text-2xl" />
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 p-5 hidden md:block">
+        <h3 className="mb-6 font-semibold text-lg">Useful Links</h3>
+        <ul className="flex-wrap flex">
+          <li className="w-[50%] mb-3">Home</li>
+          <li className="w-[50%] mb-3">Cart</li>
+          <li className="w-[50%] mb-3">Man Fashion</li>
+          <li className="w-[50%] mb-3">Woman Fashion</li>
+          <li className="w-[50%] mb-3">Accessories</li>
+          <li className="w-[50%] mb-3">My Account</li>
+          <li className="w-[50%] mb-3">Favorite</li>
+          <li className="w-[50%] mb-3">Order Tracking</li>
+          <li className="w-[50%] mb-3">Wishlist</li>
+          <li className="w-[50%] mb-3">Terms</li>
+        </ul>
+      </div>
+      <div className="p-5 flex-1 bg-[#fcf5f5] md:bg-white">
+        <h3 className="mb-6 font-semibold text-lg">Contact</h3>
+        <div className="flex items-center mb-6 space-x-5">
+          <LocationIcon className="!text-2xl" />
+          <span>District 4, Ho Chi Minh City, Vietnam</span>
+        </div>
+        <div className="flex items-center mb-6 space-x-5">
+          <PhoneIcon className="!text-2xl" />
+          <span>+84 385 411 491</span>
+        </div>
+        <div className="flex items-center mb-6 space-x-5">
+          <MailIcon className="!text-2xl" />
+          <span>ndth4ng@gmail.com</span>
+        </div>
+        <div className="flex space-x-5">
+          <img className="w-8 h-8" src={images.momo} alt="momo" />
+          <img className="w-8 h-8" src={images.zaloPay} alt="zalopay" />
+        </div>
+      </div>
     </div>
   );
 };

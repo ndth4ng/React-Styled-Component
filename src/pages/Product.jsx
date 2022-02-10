@@ -1,29 +1,10 @@
-import { Add, Remove } from "@material-ui/icons";
-
 import { useState } from "react";
-
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-
 import { useSelector } from "react-redux";
 
 import { useGetProductQuery } from "../services/product";
 import { useAddProductToCartMutation } from "../services/cart";
-
-const Amount = styled.span`
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  border: 1px solid teal;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0px 10px;
-`;
-
-const ErrorMessage = styled.span`
-  color: red;
-`;
+import { MinusIcon, PlusIcon } from "../constants";
 
 const Product = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -70,7 +51,7 @@ const Product = () => {
 
   return (
     <div className="flex flex-col p-3 md:flex-row md:py-10 md:px-24">
-      <div className="flex-1 flex justify-center items-center">
+      <div className="flex items-center justify-center flex-1">
         <img
           className="object-cover w-full"
           src={data?.product.images}
@@ -131,15 +112,18 @@ const Product = () => {
         {/* Stock End */}
 
         {/* Amount & Add Start */}
-        <div className="flex flex-col items-center justify-between space-y-5 md:space-x-5 md:space-y-0 md:flex-row my-5">
+        <div className="flex flex-col items-center justify-between my-5 space-y-5 md:space-x-5 md:space-y-0 md:flex-row">
           <div className="flex items-center space-x-5">
-            <Remove
-              className="cursor-pointer"
+            <MinusIcon
+              className="
+              !text-xl cursor-pointer"
               onClick={() => handleQuantity("dec")}
             />
-            <Amount>{quantity}</Amount>
-            <Add
-              className="cursor-pointer"
+            <span className="flex items-center justify-center w-8 h-8 text-black border border-teal-700 rounded-xl">
+              {quantity}
+            </span>
+            <PlusIcon
+              className="!text-xl cursor-pointer"
               onClick={() => handleQuantity("inc")}
             />
           </div>
@@ -152,7 +136,7 @@ const Product = () => {
         </div>
         {/* Amount & Add End */}
         {errorMessage === true && (
-          <ErrorMessage>Please choose both color and size</ErrorMessage>
+          <span>Please choose both color and size</span>
         )}
       </div>
     </div>

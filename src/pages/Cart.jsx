@@ -1,40 +1,17 @@
-import { Add, Remove } from "@material-ui/icons";
-import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
-  decreaseQuantity,
-  deleteProduct,
-  increaseQuantity,
-} from "../redux/cartRedux";
-import {
   useRemoveProductFromCartMutation,
   useUpdateProductInCartMutation,
 } from "../services/cart";
+import { ClearIcon, MinusIcon, PlusIcon } from "../constants";
 
 const KEY =
   "pk_test_51JnbfsLs9270OQw08yXH6XcYEfNZR3BnYZCcvHmmZAUTUFrhFN6hD0Ktfikt1KuePGnpCT9g6tbjQ1AFYfzXL5lz00aVdftlvu";
-
-const ClearProductIcon = styled(ClearIcon)`
-  cursor: pointer;
-  position: absolute;
-  color: red;
-  right: 20px;
-  top: 20px;
-`;
-
-const SummaryButton = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  font-weight: 600;
-`;
 
 const Cart = () => {
   // selector
@@ -118,7 +95,8 @@ const Cart = () => {
                 className="relative flex flex-col items-center pb-5 border-b md:flex-row md:p-0 last:border-0"
                 key={`${cartItem.product._id}${cartItem.color}${cartItem.size}`}
               >
-                <ClearProductIcon
+                <ClearIcon
+                  className="!text-2xl absolute text-red-600 cursor-pointer top-5 right-5"
                   onClick={() =>
                     handleRemove(
                       cartItem.product._id,
@@ -153,8 +131,8 @@ const Cart = () => {
                   {/* Price */}
                   <div className="flex flex-col items-center space-y-2 md:space-y-5">
                     <div className="flex items-center justify-center space-x-5">
-                      <Remove
-                        className="cursor-pointer"
+                      <MinusIcon
+                        className="!text-2xl cursor-pointer"
                         onClick={() =>
                           handleDecrease(
                             cartItem.product._id,
@@ -166,8 +144,8 @@ const Cart = () => {
                       <span className="px-2 text-lg border rounded-lg">
                         {cartItem.quantity}
                       </span>
-                      <Add
-                        className="cursor-pointer"
+                      <PlusIcon
+                        className="!text-2xl cursor-pointer"
                         onClick={() =>
                           handleIncrease(
                             cartItem.product._id,
@@ -218,7 +196,9 @@ const Cart = () => {
                 token={onToken}
                 stripeKey={KEY}
               >
-                <SummaryButton>CHECKOUT NOW</SummaryButton>
+                <button className="w-full p-3 text-white bg-black">
+                  CHECKOUT NOW
+                </button>
               </StripeCheckout>
             </div>
           )}

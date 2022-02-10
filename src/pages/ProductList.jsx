@@ -1,59 +1,7 @@
-import styled from "styled-components";
-
-import Navbar from "../components/Navbar";
-import Announcement from "../components/Announcement";
 import Products from "../components/Products";
-import Newsletter from "../components/Newsletter";
-import Footer from "../components/Footer";
-import { mobile } from "../responsive";
+
 import { useLocation } from "react-router";
 import { useState } from "react";
-import { useGetProductsQuery } from "../services/product";
-
-import { Pagination } from "antd";
-
-const Container = styled.div``;
-
-const Title = styled.h1`
-  margin: 20px;
-`;
-
-const FilterContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const Filter = styled.div`
-  margin: 20px;
-
-  ${mobile({
-    margin: "0px 20px",
-    display: "flex",
-    flexDirection: "column",
-  })}
-`;
-
-const FilterText = styled.span`
-  font-size: 20px;
-  font-weight: 600;
-  margin-right: 20px;
-
-  ${mobile({
-    marginRight: "0px",
-  })}
-`;
-
-const Select = styled.select`
-  padding: 10px;
-  margin-right: 20px;
-  ${mobile({
-    margin: "10px 0px",
-  })}
-`;
-
-const Option = styled.option`
-  padding: 10px;
-`;
 
 const ProductList = () => {
   const location = useLocation();
@@ -70,9 +18,9 @@ const ProductList = () => {
   };
 
   return (
-    <Container>
-      <Title>Dresses</Title>
-      <FilterContainer>
+    <div className="p-5">
+      <h1>Dresses</h1>
+      <div className="flex justify-end">
         {/* <Filter>
           <FilterText>Filter Products:</FilterText>
           <select
@@ -90,8 +38,8 @@ const ProductList = () => {
             <option value="XL">XL</option>
           </select>
         </Filter> */}
-        <Filter>
-          <FilterText>Sort Products</FilterText>
+        <div className="flex items-center space-x-5">
+          <span className="text-lg font-semibold">Sort Products</span>
           <select
             className="px-4 py-2 border border-teal-700 rounded-md"
             onChange={(e) => setSort(e.target.value)}
@@ -100,11 +48,11 @@ const ProductList = () => {
             <option value="asc">Price (asc)</option>
             <option value="desc">Price (desc)</option>
           </select>
-        </Filter>
-      </FilterContainer>
+        </div>
+      </div>
 
       <Products sort={sort} />
-    </Container>
+    </div>
   );
 };
 

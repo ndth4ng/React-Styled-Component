@@ -4,10 +4,6 @@ import Product from "./pages/Product";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
-import Success from "./pages/Success";
-
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Profile from "./pages/Profile";

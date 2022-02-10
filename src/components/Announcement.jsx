@@ -1,22 +1,9 @@
-import styled from "styled-components"
-
-const Container = styled.div`
-    height: 30px;
-    background-color: teal;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 500;
-`
-
 const Announcement = () => {
-    return (
-        <Container>
-            Super Deal! Free Shipping on Orders Over $50
-        </Container>
-    )
-}
+  return (
+    <div className="bg-teal-700 text-white flex justify-center items-center h-7">
+      Super Deal! Free Shipping on Orders Over $50
+    </div>
+  );
+};
 
-export default Announcement
+export default Announcement;

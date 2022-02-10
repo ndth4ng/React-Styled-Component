@@ -1,26 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import styled from "styled-components";
 import { useLoginMutation } from "../services/user";
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url("https://www.wallpaperup.com/uploads/wallpapers/2013/06/12/101508/1a879ef3a8a568ded06046905e35c693.jpg");
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Error = styled.span`
-  color: red;
-`;
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -52,7 +33,7 @@ const Login = () => {
   }, [isAuthenticated, path, navigate]);
 
   return (
-    <Container>
+    <div className="flex items-center justify-center w-screen h-screen bg-teal-700">
       <div className="w-[90%] md:w-1/3 xl:w-1/4  bg-white p-4">
         <h1 className="mb-4 text-xl">SIGN IN</h1>
         <form className="flex flex-col space-y-3">
@@ -76,14 +57,14 @@ const Login = () => {
           >
             LOGIN
           </button>
-          {error && <Error>Something went wrong...</Error>}
+          {error && <span>Something went wrong...</span>}
           <span className="underline">DO NOT REMEMBER YOUR PASSWORD?</span>
           <Link to="/register" className="underline text-inherit">
             CREATE NEW ACCOUNT
           </Link>
         </form>
       </div>
-    </Container>
+    </div>
   );
 };
 

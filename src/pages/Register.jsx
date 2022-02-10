@@ -1,45 +1,9 @@
-import styled from "styled-components";
-import { mobile } from "../responsive";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../utils/validation";
 import { registerUser } from "../redux/userRedux";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url("https://images.pexels.com/photos/6984661/pexels-photo-6984661.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
-      center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
-`;
-
-const Agreement = styled.span`
-  font-size: 14px;
-  margin: 20px 0;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 10px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-`;
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -55,9 +19,9 @@ const Register = () => {
     dispatch(registerUser(registerData));
   };
   return (
-    <Container>
+    <div className="flex items-center justify-center w-screen h-screen bg-teal-700">
       <div className="w-[90%] md:w-1/3 xl:w-1/4  bg-white p-4">
-        <h1 className="text-xl mb-4">CREATE AN ACCOUNT</h1>
+        <h1 className="mb-4 text-xl">CREATE AN ACCOUNT</h1>
         <form
           className="flex flex-col space-y-3"
           onSubmit={handleSubmit(onSubmit)}
@@ -137,7 +101,7 @@ const Register = () => {
               {errors.confirmPassword?.message}
             </span>
           </div>
-          <Agreement>
+          <div>
             Already have an account?{" "}
             <Link
               to="/login"
@@ -145,17 +109,17 @@ const Register = () => {
             >
               LOGIN
             </Link>
-          </Agreement>
+          </div>
 
           <button
-            className="bg-teal-700 text-white w-2/4 py-3 px-2 mx-auto"
+            className="w-2/4 px-2 py-3 mx-auto text-white bg-teal-700"
             type="submit"
           >
             CREATE
           </button>
         </form>
       </div>
-    </Container>
+    </div>
   );
 };
 

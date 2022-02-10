@@ -1,34 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import PersonIcon from "@mui/icons-material/Person";
-import StoreIcon from "@mui/icons-material/Store";
+import { HeartIcon, HomeIcon, PhoneIcon, UserIcon } from "../../constants";
 
 const BottomNav = () => {
   return (
     <div className="flex items-center justify-around h-full divide-x">
       <Link to="/" className="bottom-nav-item">
         <div className="flex flex-col items-center">
-          <StoreIcon />
+          <HomeIcon className="!text-2xl" />
           Home
         </div>
       </Link>
       <Link to="/contact" className="bottom-nav-item">
         <div className="flex flex-col items-center">
-          <PhoneAndroidIcon />
+          <PhoneIcon className="!text-2xl" />
           Contact
         </div>
       </Link>
       <Link to="/wishlist" className="bottom-nav-item">
         <div className="flex flex-col items-center">
-          <FavoriteIcon />
+          <HeartIcon className="!text-2xl" />
           Wishlist
         </div>
       </Link>
       <Link to="/profile" className="bottom-nav-item">
         <div className="flex flex-col items-center">
-          <PersonIcon />
+          <UserIcon className="!text-2xl" />
           Profile
         </div>
       </Link>
