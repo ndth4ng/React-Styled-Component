@@ -14,7 +14,7 @@ const NewProducts = () => {
         {isLoading ? (
           <SkeletonImages count={8} />
         ) : (
-          data.data
+          data?.data
             .slice(0, 8)
             .map((item) => <SingleProduct key={item._id} item={item} />)
         )}
