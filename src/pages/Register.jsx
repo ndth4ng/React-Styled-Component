@@ -1,11 +1,17 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../utils/validation";
-import { registerUser } from "../redux/userRedux";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+// import { useRegisterMutation } from "../services/user";
+
+// import { toast } from "react-toastify";
+import { registerUser } from "../redux/userRedux";
 
 const Register = () => {
+  // hook
+  // const [registerApi, { isLoading, isError, error }] = useRegisterMutation();
+
   const dispatch = useDispatch();
 
   const {
@@ -16,8 +22,22 @@ const Register = () => {
 
   const onSubmit = (formData) => {
     const { confirmPassword, ...registerData } = formData;
+    // registerApi(registerData);
     dispatch(registerUser(registerData));
   };
+
+  // if (isError) {
+  //   toast.error(error.data.msg, {
+  //     position: "bottom-center",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //   });
+  // }
+
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-teal-700">
       <div className="w-[90%] md:w-1/3 xl:w-1/4  bg-white p-4">

@@ -10,50 +10,59 @@ import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./pages/Layout";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+    <>
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
 
-          <Route path="product">
-            <Route index element={<ProductList />} />
-            <Route path=":productId" element={<Product />} />
+            <Route path="products">
+              {/* <Route index element={<ProductList />} /> */}
+              <Route path=":category" element={<ProductList />} />
+            </Route>
+
+            <Route path="product">
+              <Route index element={<ProductList />} />
+              <Route path=":productId" element={<Product />} />
+            </Route>
+
+            {/* Protected Routes */}
+            <Route
+              path="wishlist"
+              element={
+                <ProtectedRoute redirectTo="wishlist">
+                  <Wishlist />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="cart"
+              element={
+                <ProtectedRoute redirectTo="cart">
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute redirectTo="profile">
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-
-          {/* Protected Routes */}
-          <Route
-            path="wishlist"
-            element={
-              <ProtectedRoute redirectTo="wishlist">
-                <Wishlist />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="cart"
-            element={
-              <ProtectedRoute redirectTo="cart">
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              <ProtectedRoute redirectTo="profile">
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 

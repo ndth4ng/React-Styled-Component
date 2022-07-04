@@ -14,11 +14,15 @@ export const productsApi = createApi({
     // GET
 
     getProducts: builder.query({
-      query: (page, sort) => `products?category=&page=${page}&sort=${sort}`,
+      query: ({ category, page, size, sort }) =>
+        `products?category=${category}&page=${page}&size=${size}&sort=${sort}`,
+      transformResponse: (response, meta, arg) => response.data,
     }),
 
     getProduct: builder.query({
-      query: (productId) => `products/${productId}`,
+      query: (productId) => `products/find/${productId}`,
+
+      transformResponse: (response, meta, arg) => response.data,
     }),
   }),
 });

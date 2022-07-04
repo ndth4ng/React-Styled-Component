@@ -36,7 +36,7 @@ const Product = () => {
     }
     if (chosenColor !== "" && chosenSize !== "") {
       const productInfo = {
-        product: data.product._id,
+        product: data._id,
         quantity,
         color: chosenColor,
         size: chosenSize,
@@ -54,21 +54,21 @@ const Product = () => {
       <div className="flex items-center justify-center flex-1">
         <img
           className="object-cover w-full"
-          src={data?.product.images}
-          alt={data?.product.title}
+          src={data?.images}
+          alt={data?.title}
         />
       </div>
 
       <div className="flex-1 p-3 md:py-10 md:px-20">
         {/* Title Price Desc */}
         <p className="text-2xl text-center md:text-4xl md:font-bold md:text-left">
-          {data?.product.title.toUpperCase()}
+          {data?.title.toUpperCase()}
         </p>
         <p className="text-lg font-bold text-center md:font-light md:text-3xl md:text-left">
-          $ {data?.product.price}
+          $ {data?.price}
         </p>
         <p className="text-xl text-center md:font-light md:text-left">
-          {data?.product.description}
+          {data?.description}
         </p>
 
         {/* Filter Container Start */}
@@ -76,7 +76,7 @@ const Product = () => {
           {/* Color */}
           <div className="flex items-center space-x-3">
             <span className="text-lg">Color:</span>
-            {data?.product.colors.map((c) => (
+            {data?.colors.map((c) => (
               <span
                 style={{ backgroundColor: `${c}` }}
                 className={`w-5 h-5 rounded-full cursor-pointer ${
@@ -98,7 +98,7 @@ const Product = () => {
               onChange={(e) => setChosenSize(e.target.value)}
             >
               <option></option>
-              {data?.product.sizes.map((s) => (
+              {data?.sizes.map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>

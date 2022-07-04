@@ -4,12 +4,16 @@ import SkeletonImages from "./Skeleton/SkeletonImages";
 import { useState } from "react";
 import { Pagination } from "antd";
 
-const Products = ({ sort }) => {
+const Products = ({ category, sort }) => {
   const [page, setPage] = useState(1);
 
-  const { data, error, isLoading } = useGetProductsQuery(page, sort);
+  const { data, error, isLoading, isSuccess } = useGetProductsQuery({
+    category: category,
+    page: page,
+    sort: sort,
+  });
 
-  !isLoading && console.log(data);
+  isSuccess && console.log(data);
 
   return (
     <div className="py-5">
@@ -17,7 +21,7 @@ const Products = ({ sort }) => {
         {isLoading ? (
           <SkeletonImages count={4} />
         ) : (
-          data.data.map((item) => <SingleProduct key={item._id} item={item} />)
+          data?.map((item) => <SingleProduct key={item._id} item={item} />)
         )}
       </div>
       <Pagination

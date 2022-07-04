@@ -3,7 +3,7 @@ import { useGetProductsQuery } from "../services/product";
 import SkeletonImages from "./Skeleton/SkeletonImages";
 
 const NewProducts = () => {
-  const { data, error, isLoading } = useGetProductsQuery();
+  const { data, error, isLoading } = useGetProductsQuery({ sort: "newest" });
 
   return (
     <div className="py-5">
@@ -14,8 +14,8 @@ const NewProducts = () => {
         {isLoading ? (
           <SkeletonImages count={8} />
         ) : (
-          data?.data
-            .slice(0, 8)
+          data
+            ?.slice(0, 8)
             .map((item) => <SingleProduct key={item._id} item={item} />)
         )}
       </div>

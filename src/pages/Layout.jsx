@@ -9,8 +9,9 @@ const Layout = () => {
     <>
       <Announcement />
       <Navbar />
-
-      <Outlet />
+      <div className="container mx-auto">
+        <Outlet />
+      </div>
 
       <Footer />
       {/* Mobile */}

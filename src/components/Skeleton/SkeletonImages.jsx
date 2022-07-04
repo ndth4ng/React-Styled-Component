@@ -8,7 +8,7 @@ const SkeletonImages = ({ count }) => {
   return (
     <>
       {list.map((item, index) => {
-        return <div key={index}>{item};</div>;
+        return <div key={index}>{item}</div>
       })}
     </>
   );

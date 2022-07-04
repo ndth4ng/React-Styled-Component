@@ -1,14 +1,14 @@
 import Products from "../components/Products";
 
-import { useLocation } from "react-router";
+import { useParams } from "react-router";
 import { useState } from "react";
 
 const ProductList = () => {
-  const location = useLocation();
-  const cate = location.pathname.split("/")[2];
+  const params = useParams();
   const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("newest"); // newest
 
-  const [sort, setSort] = useState(""); // newest
+  const category = params.category;
 
   const handleFilters = (e) => {
     setFilters({
@@ -19,7 +19,7 @@ const ProductList = () => {
 
   return (
     <div className="p-5">
-      <h1>Dresses</h1>
+      <h1>{category}</h1>
       <div className="flex justify-end">
         {/* <Filter>
           <FilterText>Filter Products:</FilterText>
@@ -44,14 +44,14 @@ const ProductList = () => {
             className="px-4 py-2 border border-teal-700 rounded-md"
             onChange={(e) => setSort(e.target.value)}
           >
-            <option value="">Newest</option>
-            <option value="asc">Price (asc)</option>
-            <option value="desc">Price (desc)</option>
+            <option value="newest">Newest</option>
+            <option value="price">Price (asc)</option>
+            <option value="-price">Price (desc)</option>
           </select>
         </div>
       </div>
 
-      <Products sort={sort} />
+      <Products category={category} sort={sort} />
     </div>
   );
 };
